@@ -6,3 +6,5 @@ do_configure_append() {
 	kernel_configure_variable SQUASHFS_ZLIB y
 	kernel_configure_variable SQUASHFS_FRAGMENT_CACHE_SIZE 3
 }
+
+CMDLINE_remove = "root=/dev/mmcblk0p2"

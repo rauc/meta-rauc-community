@@ -1,1 +1,1 @@
-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+FILESEXTRAPATHS_prepend_rpi := "${THISDIR}/files:"

@@ -7,10 +7,12 @@ SRC_URI_append := "  \
 
 inherit systemd
 
-SYSTEMD_PACKAGES += " ${PN}-grow-data-part"
+SYSTEMD_PACKAGES += "${PN}-grow-data-part"
 SYSTEMD_SERVICE_${PN}-grow-data-part = "rauc-grow-data-partition.service"
 
-PACKAGES += " rauc-grow-data-part"
+PACKAGES += "rauc-grow-data-part"
+
+RDEPENDS_${PN}-grow-data-part += "parted"
 
 do_install_append() {
 	install -d ${D}${systemd_unitdir}/system/

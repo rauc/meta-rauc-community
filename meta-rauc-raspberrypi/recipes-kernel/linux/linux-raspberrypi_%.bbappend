@@ -1,3 +1,6 @@
 FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-SRC_URI += "file://rauc.cfg"
-CMDLINE_remove = "root=/dev/mmcblk0p2"
+
+inherit rauc-integration
+
+SRC_URI_append_rauc-integration = " file://rauc.cfg"
+CMDLINE_remove_rauc-integration = "root=/dev/mmcblk0p2"

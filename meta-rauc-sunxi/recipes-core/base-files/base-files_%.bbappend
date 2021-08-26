@@ -1,1 +1,1 @@
-FILESEXTRAPATHS_prepend_sun8i := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend:sun8i := "${THISDIR}/files:"

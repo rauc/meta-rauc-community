@@ -1,7 +1,7 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
 DEPENDS += " bc-native dtc-native swig-native python3-native flex-native bison-native "
-DEPENDS:append_sun50i = " atf-sunxi "
+DEPENDS:append:sun50i = " atf-sunxi "
 
 COMPATIBLE_MACHINE = "(sun4i|sun5i|sun7i|sun8i|sun50i)"
 

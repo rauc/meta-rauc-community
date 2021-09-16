@@ -5,6 +5,9 @@ SRC_URI:append := "  \
 	file://rauc-grow-data-partition.service \
 "
 
+# additional dependencies required to run RAUC on the target
+RDEPENDS:${PN} += "u-boot-fw-utils u-boot-env"
+
 inherit systemd
 
 SYSTEMD_PACKAGES += "${PN}-grow-data-part"

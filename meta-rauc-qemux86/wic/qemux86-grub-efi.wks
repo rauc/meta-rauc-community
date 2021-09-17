@@ -1,0 +1,17 @@
+# short-description: Create Qemu disk image
+# long-description: Creates a partitioned Qemu disk image for use with the RAUC
+# update tool. The partitionging scheme provides:
+# * a grub environment partition
+# * a rescue partition
+# * a bootloader partition with extra space for a shadow copy for atomic bootloader updates
+# * two root file system partitions for atomic updates
+# * a common data partition
+
+bootloader --ptable gpt
+part --fixed-size 50M --source rawcopy --sourceparams="file=efi-boot.vfat" --fstype=vfat --ondisk sda --label boot --active --align 4096
+part --fixed-size 50M --ondisk sda --align 4096 --no-table
+part --fixed-size 10M --fstype=vfat --ondisk sda --label grubenv --align 1024
+part /rescue --source rootfs --ondisk sda --fstype=ext4 --label rescue --align 1024
+part / --source rootfs --ondisk sda --fstype=ext4 --label root_a --align 4096
+part / --source rootfs --ondisk sda --fstype=ext4 --label root_b --align 4096
+part /data --fixed-size 50M --ondisk sda --fstype=ext4 --label data --align 4096

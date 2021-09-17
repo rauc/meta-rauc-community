@@ -2,8 +2,9 @@ RAUC Demo Layers
 ================
 
 
+* meta-rauc-qemux86: RAUC demo layer for qemux86-64
 * meta-rauc-raspberrypi: RAUC demo layer for the Raspberry PI (meta-raspberrypi)
-* meta-rauc-sunxi: RAUC demo layer for the Allwinner sunxi SoCs (meta-sunxyi)
+* meta-rauc-sunxi: RAUC demo layer for the Allwinner sunxi SoCs (meta-sunxi)
 
 The layers perform the required integration steps for setting up a redundant
 boot with RAUC:

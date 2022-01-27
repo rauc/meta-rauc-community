@@ -8,6 +8,7 @@ RPROVIDES:${PN} += "virtual-grub-bootconf"
 
 SRC_URI += " \
     file://grub.cfg \
+    file://grubenv \
     "
 
 S = "${WORKDIR}"
@@ -23,6 +24,7 @@ FILES:${PN} += "${EFI_FILES_PATH}"
 
 do_deploy() {
 	install -m 644 ${WORKDIR}/grub.cfg ${DEPLOYDIR}
+	install -m 644 ${WORKDIR}/grubenv ${DEPLOYDIR}
 }
 
 addtask deploy after do_install before do_build

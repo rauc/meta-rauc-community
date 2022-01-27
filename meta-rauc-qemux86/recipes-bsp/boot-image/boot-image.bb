@@ -39,6 +39,17 @@ do_deploy () {
     chmod 644 ${FATIMG}
 
     mv ${FATIMG} ${DEPLOYDIR}/
+
+    GRUBENV_IMG="${WORKDIR}/grubenv.vfat"
+
+    rm -f ${GRUBENV_IMG}
+
+    mkdosfs -n "BOOT" ${MKDOSFS_EXTRAOPTS} -C ${GRUBENV_IMG} \
+                    64
+    mcopy -i ${GRUBENV_IMG} -s ${DEPLOY_DIR_IMAGE}/grubenv ::/
+    chmod 644 ${GRUBENV_IMG}
+
+    mv ${GRUBENV_IMG} ${DEPLOYDIR}/
 }
 
 do_deploy[cleandirs] = "${WORKDIR}/efi-boot"

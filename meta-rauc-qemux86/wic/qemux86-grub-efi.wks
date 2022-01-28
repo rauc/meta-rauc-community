@@ -14,4 +14,4 @@ part --fixed-size 10M --source rawcopy --sourceparams="file=grubenv.vfat" --fsty
 part /rescue --source rootfs --ondisk sda --fstype=ext4 --label rescue --align 1024
 part / --source rootfs --ondisk sda --fstype=ext4 --label root_a --align 4096
 part / --source rootfs --ondisk sda --fstype=ext4 --label root_b --align 4096
-part /data --fixed-size 50M --ondisk sda --fstype=ext4 --label data --align 4096
+part /data --fixed-size 100M --ondisk sda --fstype=ext4 --label data --align 4096

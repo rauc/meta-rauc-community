@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 RAUC_BUNDLE_COMPATIBLE = "qemu86-64 demo platform"
 
+RAUC_BUNDLE_FORMAT = "verity"
+
 RAUC_BUNDLE_SLOTS = "efi rootfs"
 
 RAUC_IMAGE_FSTYPE = "tar.bz2"

@@ -1,4 +1,4 @@
-# fstab for qemux86 RAUC redundant boot setup
+# fstab for qemux86-64 RAUC redundant boot setup
 
 /dev/root            /                    auto       defaults              1  1
 proc                 /proc                proc       defaults              0  0

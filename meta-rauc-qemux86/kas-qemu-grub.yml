@@ -1,20 +1,20 @@
 header:
   # We require kas config version 10
   version: 10
-machine: qemux86
+machine: qemux86-64
 distro: poky
 repos:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
-    refspec: "refs/remotes/origin/dunfell"
+    refspec: "refs/remotes/origin/master"
   meta-rauc-demo:
     url: "https://github.com/rauc/meta-rauc-community.git"
-    refspec: "refs/remotes/origin/dunfell"
+    refspec: "refs/remotes/origin/master"
     layers:
       meta-rauc-qemux86:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    refspec: "refs/remotes/origin/dunfell"
+    refspec: "refs/remotes/origin/master"
     layers:
       meta:
       meta-poky:

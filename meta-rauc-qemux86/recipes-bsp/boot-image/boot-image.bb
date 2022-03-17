@@ -24,7 +24,7 @@ do_deploy () {
 
     mkdir -p ${FATSOURCEDIR}/EFI/BOOT
     cp ${DEPLOY_DIR_IMAGE}/grub.cfg ${FATSOURCEDIR}/EFI/BOOT/
-    cp ${DEPLOY_DIR_IMAGE}/grub-efi-bootia32.efi ${FATSOURCEDIR}/EFI/BOOT/bootia32.efi
+    cp ${DEPLOY_DIR_IMAGE}/grub-efi-bootx64.efi ${FATSOURCEDIR}/EFI/BOOT/bootx64.efi
 
     MKDOSFS_EXTRAOPTS="-S 512"
     FATIMG="${WORKDIR}/efi-boot.vfat"

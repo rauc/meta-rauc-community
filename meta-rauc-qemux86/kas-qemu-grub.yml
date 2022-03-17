@@ -1,0 +1,34 @@
+header:
+  # We require kas config version 10
+  version: 10
+machine: qemux86
+distro: poky
+repos:
+  meta-rauc:
+    url: "https://github.com/rauc/meta-rauc.git"
+    refspec: "refs/remotes/origin/dunfell"
+  meta-rauc-demo:
+    url: "https://github.com/rauc/meta-rauc-community.git"
+    refspec: "refs/remotes/origin/dunfell"
+    layers:
+      meta-rauc-qemux86:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    refspec: "refs/remotes/origin/dunfell"
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+target:
+  - core-image-minimal
+  - core-bundle-minimal
+local_conf_header:
+  meta-custom: |
+    DISTRO_FEATURES:append = " rauc"
+    IMAGE_INSTALL:append = " rauc"
+    IMAGE_FSTYPES = "tar.bz2 wic"
+    WKS_FILE = "qemux86-grub-efi.wks"
+    EXTRA_IMAGEDEPENDS += "ovmf"
+    PREFERRED_RPROVIDER_virtual-grub-bootconf = "rauc-qemu-grubconf"
+    EXTRA_IMAGE_FEATURES += "debug-tweaks"
+    EXTRA_IMAGE_FEATURES += "ssh-server-openssh"

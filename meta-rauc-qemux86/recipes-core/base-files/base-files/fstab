@@ -1,0 +1,13 @@
+# fstab for qemux86 RAUC redundant boot setup
+
+/dev/root            /                    auto       defaults              1  1
+proc                 /proc                proc       defaults              0  0
+devpts               /dev/pts             devpts     mode=0620,ptmxmode=0666,gid=5      0  0
+tmpfs                /run                 tmpfs      mode=0755,nodev,nosuid,strictatime 0  0
+tmpfs                /var/volatile        tmpfs      defaults              0  0
+
+# Add mount for boot, grubenv and data partition
+/dev/sda2            /grubenv             auto       defaults,sync  0  0
+/dev/sda3            /rescue              auto       defaults,sync  0  0
+/dev/sda6            /data                auto       defaults,sync  0  0
+

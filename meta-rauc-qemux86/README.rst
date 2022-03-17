@@ -45,9 +45,9 @@ Add configuration required for qemux86 to your local.conf::
    MACHINE_FEATURES:append = " pcbios efi"
    EXTRA_IMAGEDEPENDS += "ovmf"
 
-Set the ``MACHINE`` to ``qemux86-64`` if not set yet::
+Set the ``MACHINE`` to ``qemux86`` if not set yet::
 
-   MACHINE = "qemux86-64"
+   MACHINE = "qemux86"
 
 It is recommended, but not necessary, to enable 'systemd'::
 
@@ -94,7 +94,7 @@ Boot qemu image::
     $ runqemu core-image-minimal wic nographic ovmf slirp
     
     ...
-    root@qemux86-64:~#
+    root@qemux86:~#
 
 To see that RAUC is configured correctly and can interact with the bootloader,
 run::
@@ -114,15 +114,15 @@ Obtain an IP address on the target::
 
 Copy update Bundle from host to the target::
 
-    $ scp -P 2222 tmp/deploy/images/qemux86-64/qemu-demo-bundle-qemux86-64.raucb root@localhost:/tmp
+    $ scp -P 2222 tmp/deploy/images/qemux86/qemu-demo-bundle-qemux86.raucb root@localhost:/tmp
 
 Check Bundle on the target::
 
-    # rauc info /tmp/qemu-demo-bundle-qemux86-64.raucb
+    # rauc info /tmp/qemu-demo-bundle-qemux86.raucb
 
 Install the Bundle::
 
-    # rauc install /tmp/qemu-demo-bundle-qemux86-64.raucb
+    # rauc install /tmp/qemu-demo-bundle-qemux86.raucb
     installing
       0% Installing
       0% Determining slot states
@@ -146,7 +146,7 @@ Install the Bundle::
      100% Copying image to rootfs.1 done.
      100% Updating slots done.
      100% Installing done.
-     Installing `/tmp/qemu-demo-bundle-qemux86-64.raucb` succeeded
+     Installing `/tmp/qemu-demo-bundle-qemux86.raucb` succeeded
 
 Reboot the system::
 

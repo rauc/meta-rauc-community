@@ -52,6 +52,6 @@ do_deploy () {
     mv ${GRUBENV_IMG} ${DEPLOYDIR}/
 }
 
-do_deploy[cleandirs] = "${WORKDIR}/efi-boot"
+do_deploy[cleandirs] += "${WORKDIR}/efi-boot"
 
 addtask deploy after do_install

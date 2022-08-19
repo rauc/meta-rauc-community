@@ -1,3 +1,5 @@
+|MIT| |Matrix|
+
 RAUC Demo Layers
 ================
 
@@ -15,3 +17,8 @@ boot with RAUC:
 * Provide example wic image config
 * Provide proper rauc system.conf
 * Add example keys
+
+.. |MIT| image:: https://img.shields.io/badge/license-MIT-blue.svg
+   :target: https://raw.githubusercontent.com/rauc/meta-rauc-community/master/COPYING.MIT
+.. |Matrix| image:: https://img.shields.io/matrix/rauc:matrix.org?label=matrix%20chat
+   :target: https://app.element.io/#/room/#rauc:matrix.org

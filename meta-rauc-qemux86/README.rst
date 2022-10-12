@@ -26,6 +26,7 @@ Features
 * Atomic EFI bootloader (GRUB) updates
 * Shared data partition (with RAUC central slot status)
 * Example bundle recipe
+* Ready for testing RAUC adaptive updates
 
 I. Adding the meta-rauc-qemux86 layer to your build
 ===================================================

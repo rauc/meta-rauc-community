@@ -58,7 +58,7 @@ Add configuration required for meta-rauc-raspberrypi to your local.conf::
 
    # Settings for meta-rauc-raspberry-pi
    IMAGE_INSTALL:append = " rauc"
-   IMAGE_FSTYPES += "ext4"
+   IMAGE_FSTYPES:append = " ext4"
    WKS_FILE = "sdimage-dual-raspberrypi.wks.in"
 
 Make sure either your distro (recommended) or your local.conf have ``rauc``

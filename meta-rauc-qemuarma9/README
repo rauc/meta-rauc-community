@@ -1,0 +1,41 @@
+This README file contains information on the contents of the meta-rauc-qemuarma9 layer.
+This layer was forked from https://github.com/ahmedkassem56/meta-qemuarma9 and adapted for
+RAUC by Simon.minko
+
+Dependencies
+-------------
+URI: https://github.com/rauc/meta-rauc.git
+
+Disclaimer
+----------
+Note that this is just an example layer that shows a few possible configuration options how RAUC can be used. Actual requirements may differ from project to projects and will probably need a much different RAUC/bootloader/system configuration.
+
+Also note that this layer is for demo purpose only and does not care about migratability between different layer revision.
+
+I. HOW TO BUILD AND LAUNCH QEMUARMA9
+------------------------------------
+
+    1° Create a build folder
+    source poky/oe-init-build-env 
+
+    2° Add layer meta-rauc-qemuarma9
+    bitbake-layers add-layer <path>/meta-rauc-community/meta-rauc-qemuarma9
+
+    3° open file bblayer.conf and Check if layer meta-rauc-community/meta-rauc-qemuarma9 was correctly added 
+
+    4° Edit conf/local.conf and set value qemuarma9 to variable MACHINE
+    MACHINE = "qemuarma9"
+
+    5° launch the build
+    bitbake core-image-minimal
+
+    6° Launch script launch-qemu.sh in folder : <your build folder>/tmp/deploy/images/qemuarma9
+
+
+II. WHY USE SCRIPT launch-qemu.sh
+
+script launch-qemu.sh create a virtual nic with ip 10.0.3.100 and a virtual bridge to communicate with our yocto qemuarma9 image.
+Yocto set a static ip adress to Qemuarma9 image, the ip adress is 10.0.3.17
+
+Now we can update some rootfs partition with scp or other tool
+

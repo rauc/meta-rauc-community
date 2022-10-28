@@ -1,0 +1,50 @@
+From 6c283c07d6c4628d6908c65ab55e9bcae2cb818d Mon Sep 17 00:00:00 2001
+From: ahmedkassem56 <ahmed.kassem56@gmail.com>
+Date: Sun, 7 Feb 2021 05:52:59 +0200
+Subject: [PATCH] Configure u-boot default configurations to enable dual bank
+ booting
+
+Setting variable bank to a will boot kernel,dtb and rootfs from bank a
+Setting variable bank to b will boot kernel,dtb and rootfs from bank b
+---
+ include/configs/vexpress_common.h | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
+
+diff --git a/include/configs/vexpress_common.h b/include/configs/vexpress_common.h
+index 7f215a6707..d7ef900fa2 100644
+--- a/include/configs/vexpress_common.h
++++ b/include/configs/vexpress_common.h
+@@ -196,18 +196,23 @@
+ #endif
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 		CONFIG_PLATFORM_ENV_SETTINGS \
+-                BOOTENV \
+ 		"console=ttyAMA0,38400n8\0" \
+ 		"dram=1024M\0" \
+-		"root=/dev/sda1 rw\0" \
+-		"mtd=armflash:1M@0x800000(uboot),7M@0x1000000(kernel)," \
+-			"24M@0x2000000(initrd)\0" \
+-		"flashargs=setenv bootargs root=${root} console=${console} " \
+-			"mem=${dram} mtdparts=${mtd} mmci.fmax=190000 " \
+-			"devtmpfs.mount=0  vmalloc=256M\0" \
+-		"bootflash=run flashargs; " \
+-			"cp ${ramdisk_addr} ${ramdisk_addr_r} ${maxramdisk}; " \
+-			"bootm ${kernel_addr} ${ramdisk_addr_r}\0"
++		"bank_select_files=if test ${bank} = a; "\ 
++					"then " \ 
++						"echo Booting Bank A ; " \ 
++						"setenv bootargs console=ttyAMA0 root=/dev/mmcblk0p2; " \
++						"setenv kernel_boot kernel_a; " \
++						"setenv dtb_boot dtb_a ;" \ 
++					"else " \ 
++						"echo Booting Bank B; " \ 
++						"setenv bootargs console=ttyAMA0 root=/dev/mmcblk0p3; " \ 
++						"setenv kernel_boot kernel_b; " \
++						"setenv dtb_boot dtb_b; " \
++					"fi;\0" \
++		"bank=a\0" \
++		"kernel_boot=kernel_a\0" \
++		"dtb_boot=dtb_a\0"  
+ 
+ /* FLASH and environment organization */
+ #define PHYS_FLASH_SIZE			0x04000000	/* 64MB */

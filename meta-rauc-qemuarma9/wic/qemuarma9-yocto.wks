@@ -1,0 +1,6 @@
+# short-description: Create SD card image for vexpress-a9
+# long-description: Creates a partitioned SD card image for vexpress-a9.
+
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=ext4 --label boot --align 1024 --use-uuid --extra-space 100 --mkfs-extraopts="-O ^metadata_csum"
+part --source rootfs --fstype=ext4 --ondisk mmcblk0 --use-uuid --label root_a --align 1024 --extra-space 500
+part --source rootfs --fstype=ext4 --ondisk mmcblk0 --use-uuid --label root_b --align 1024 --extra-space 500

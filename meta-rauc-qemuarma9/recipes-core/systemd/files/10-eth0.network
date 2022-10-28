@@ -1,0 +1,8 @@
+[Match]
+Name=eth0
+
+[Network]
+DHCP=no
+Address=10.0.3.17/24
+Gateway=10.0.3.1
+DNS=10.0.3.1

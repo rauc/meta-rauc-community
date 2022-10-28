@@ -1,0 +1,78 @@
+From fdaa7fa293a31749314cdedd824a8d00dd4800cf Mon Sep 17 00:00:00 2001
+From: simon minko <s.minko@quadient.com>
+Date: Fri, 16 Sep 2022 16:17:23 +0200
+Subject: [PATCH] for RAUC
+
+---
+ include/configs/vexpress_common.h | 54 ++++++++++++++++++++++++-------
+ 1 file changed, 43 insertions(+), 11 deletions(-)
+
+diff --git a/include/configs/vexpress_common.h b/include/configs/vexpress_common.h
+index 7f215a6707..0ddb07400f 100644
+--- a/include/configs/vexpress_common.h
++++ b/include/configs/vexpress_common.h
+@@ -196,18 +196,50 @@
+ #endif
+ #define CONFIG_EXTRA_ENV_SETTINGS \
+ 		CONFIG_PLATFORM_ENV_SETTINGS \
+-                BOOTENV \
+-		"console=ttyAMA0,38400n8\0" \
++                "console=ttyAMA0,115200n8\0" \
+ 		"dram=1024M\0" \
+-		"root=/dev/sda1 rw\0" \
+-		"mtd=armflash:1M@0x800000(uboot),7M@0x1000000(kernel)," \
+-			"24M@0x2000000(initrd)\0" \
+-		"flashargs=setenv bootargs root=${root} console=${console} " \
+-			"mem=${dram} mtdparts=${mtd} mmci.fmax=190000 " \
+-			"devtmpfs.mount=0  vmalloc=256M\0" \
+-		"bootflash=run flashargs; " \
+-			"cp ${ramdisk_addr} ${ramdisk_addr_r} ${maxramdisk}; " \
+-			"bootm ${kernel_addr} ${ramdisk_addr_r}\0"
++		"RAUC_BOOTCMD=fdt addr ${fdt_addr} && fdt get value bootargs /chosen bootargs; "\
++		"test -n \"${BOOT_ORDER}\" || setenv BOOT_ORDER \"A B\"; "\
++		"test -n \"${BOOT_A_LEFT}\" || setenv BOOT_A_LEFT 3 ; "\
++		"test -n \"${BOOT_B_LEFT}\" || setenv BOOT_B_LEFT 3 ; "\
++		"test -n \"${BOOT_DEV}\" || setenv BOOT_DEV mmc 0:1 ; "\
++		"setenv bootpart; "\
++		"setenv raucslot; "\
++		"for BOOT_SLOT in ${BOOT_ORDER}; do "\
++		" if test \"x${bootpart}\" != \"x\"; then "\
++		    "echo \"[WARN] : skip remaining slots\"; "\
++		"elif test \"x${BOOT_SLOT}\" = \"xA\"; then "\
++		    "if test ${BOOT_A_LEFT} -gt 0; then "\
++		      "setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1; "\
++		      "echo \"Found valid RAUC slot A\"; "\
++		      "setenv bootpart /dev/mmcblk0p2; "\
++		      "setenv raucslot \"A\"; "\
++		      "setenv BOOT_DEV mmc 0:2; "\
++		    "fi; "\
++		  "elif test \"x${BOOT_SLOT}\" = \"xB\"; then "\
++		    "if test ${BOOT_B_LEFT} -gt 0; then "\
++		      "setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1 ; "\
++		      "echo \"Found valid RAUC slot B\" ; "\
++		      "setenv bootpart /dev/mmcblk0p3 ; "\
++		      "setenv raucslot B ; "\
++		      "setenv BOOT_DEV mmc 0:3 ;"\
++		    "fi; "\
++		  "fi; "\
++		"done; "\
++		"if test -n \"${bootpart}\"; then "\
++  		"setenv bootargs \"${bootargs} root=${bootpart} rauc.slot=${raucslot}\" ; "\
++  		"saveenv; "\
++		"else "\
++  		"echo \"No valid RAUC slot found. Resetting tries to 3\" ; "\
++  		"setenv BOOT_A_LEFT 3 ; "\
++  		"setenv BOOT_B_LEFT 3 ; "\
++  		"saveenv; "\
++  		"reset ; "\
++		"fi;  "\
++		"ext4load mmc 0:1 0x60100000 kernel_a; "\
++		"ext4load mmc 0:1 0x62000000 dtb_a ;"\
++		"bootz 0x60100000 - 0x62000000; \0"\
++
+ 
+ /* FLASH and environment organization */
+ #define PHYS_FLASH_SIZE			0x04000000	/* 64MB */
+-- 
+2.17.1
+

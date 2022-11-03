@@ -26,6 +26,7 @@ Features
 * Atomic EFI bootloader (GRUB) updates
 * Shared data partition (with RAUC central slot status)
 * Example bundle recipe
+* Ready for testing RAUC adaptive updates
 
 I. Adding the meta-rauc-qemux86 layer to your build
 ===================================================
@@ -100,6 +101,18 @@ To see that RAUC is configured correctly and can interact with the bootloader,
 run::
 
   # rauc status
+
+Note:
+By default using ``slirp`` will forward ports 22 and 23 on the qemu system to ports 2222 and 2323 on the host system.
+If there is a collision with another runqemu instance, the script will pick the next free port.
+You can define custom port forwarding by setting ``hostfwd`` in ``QB_SLIRP_OPT``. Examples::
+
+    $ QB_SLIRP_OPT="-netdev user,id=net0,hostfwd=tcp::<host system port>-:<qemu system port>" runqemu core-image-minimal wic nographic ovmf slirp
+
+    $ QB_SLIRP_OPT="-netdev user,id=net0,hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23" runqemu core-image-minimal wic nographic ovmf slirp
+
+Slirp can be useful for remote access to the virtual machine without needing root access to the host machine.
+Keep in mind firewalls on both the host and the qemu machines should be configured based on your needs.
 
 IV. Build and Install The Demo Bundle
 =====================================

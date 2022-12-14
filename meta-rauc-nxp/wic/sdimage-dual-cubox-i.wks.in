@@ -1,0 +1,31 @@
+# short-description: Create SD card image with a boot partition and 2 RAUC rootfs slots
+# long-description:
+# Create an image that can be written onto a SD card using dd for use with cubox-i/hummingboard boards.
+# The image uses SPL and u-boot.
+# The image contains a boot partition and 2 RAUC rootfs slots
+# The boot partition contains the u-boot script
+
+# u-boot enviroment is created by u-boot on first boot.
+# If you need to reset it use something like
+#   dd if=/dev/zero of=/dev/sdX count=10000 
+
+# The disk layout used is:
+#  - ----- --------- ---------- ---------------- ----------------
+# | | SPL | u-boot  |   boot   |    rootfs A    |    rootfs B    |
+#  - ----- --------- ---------- ---------------- ----------------
+# ^ ^     ^         ^
+# | |     |         |
+# 0 1KiB  69KiB   4MiB
+#
+# You should increase IMAGE_ROOTFS_EXTRA_SPACE
+#  to have space for anything added when updating.
+
+part SPL --source rawcopy --sourceparams="file=SPL" --ondisk mmcblk --no-table --align 1
+part u-boot --source rawcopy --sourceparams="file=${UBOOT_BINARY}" --ondisk mmcblk --no-table --align 69
+
+part /boot --source bootimg-partition --ondisk mmcblk --fstype=ext4 --label boot --align 4096
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label rootfs_A --align 4096
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label rootfs_B --align 4096
+
+bootloader --ptable msdos
+

@@ -12,13 +12,11 @@ DEPENDS += "bc-native dtc-native swig-native python3-native flex-native bison-na
 EXTRA_OEMAKE += 'HOSTLDSHARED="${BUILD_CC} -shared ${BUILD_LDFLAGS} ${BUILD_CFLAGS}"'
 
 
+# The UBOOT_ENV_SUFFIX and UBOOT_ENV are mandatory in order to run the
+# uboot-mkimage command from poky/meta/recipes-bsp/u-boot/u-boot.inc
 UBOOT_ENV_SUFFIX = "scr"
 UBOOT_ENV = "boot"
 
-
-do_compile:append() {
-    mkimage -A ${UBOOT_ARCH} -T script -C none -d "${WORKDIR}/boot.cmd" ${WORKDIR}/${UBOOT_ENV_BINARY}
-}
 
 do_install:append() {
     install -d ${D}${sysconfdir}

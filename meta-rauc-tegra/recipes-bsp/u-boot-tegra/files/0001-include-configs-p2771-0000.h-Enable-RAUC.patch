@@ -31,14 +31,14 @@ index 6f36a0d2c4..d093a963b9 100644
 +	"      setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1; " \
 +	"      echo \"Found valid RAUC slot A\"; " \
 +	"      setenv raucslot \"rauc.slot=A\"; " \
-+	"      setenv raucpart 1; set distro_bootpart 1;" \
++	"      setenv raucpart 1; setenv distro_bootpart 1;" \
 +	"    fi; " \
 +	"  elif test \"x${BOOT_SLOT}\" = \"xB\"; then " \
 +	"    if test ${BOOT_B_LEFT} -gt 0; then " \
 +	"      setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1; " \
 +	"      echo \"Found valid RAUC slot B\"; " \
 +	"      setenv raucslot \"rauc.slot=B\"; " \
-+	"      setenv raucpart 2; set distro_bootpart 2;" \
++	"      setenv raucpart 2; setenv distro_bootpart 2;" \
 +	"    fi; " \
 +	"  fi; " \
 +	"done; " \

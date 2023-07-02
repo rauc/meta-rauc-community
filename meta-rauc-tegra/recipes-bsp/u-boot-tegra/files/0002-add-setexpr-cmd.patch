@@ -1,0 +1,11 @@
+--- a/configs/p2771-0000-500_defconfig
++++ b/configs/p2771-0000-500_defconfig
+@@ -18,7 +18,7 @@ CONFIG_CMD_I2C=y
+ CONFIG_CMD_MMC=y
+ CONFIG_CMD_PCI=y
+ CONFIG_CMD_SPI=y
+-# CONFIG_CMD_SETEXPR is not set
++CONFIG_CMD_SETEXPR=y
+ CONFIG_BOOTP_PREFER_SERVERIP=y
+ # CONFIG_CMD_NFS is not set
+ CONFIG_CMD_EXT4_WRITE=y

@@ -4,6 +4,7 @@ RAUC Demo Layers
 ================
 
 
+* meta-rauc-nxp: RAUC demo layer for NXP hardware (meta-freescale)
 * meta-rauc-qemux86: RAUC demo layer for qemux86-64
 * meta-rauc-raspberrypi: RAUC demo layer for the Raspberry PI (meta-raspberrypi)
 * meta-rauc-sunxi: RAUC demo layer for the Allwinner sunxi SoCs (meta-sunxi)

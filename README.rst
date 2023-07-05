@@ -16,15 +16,15 @@ differ in some aspects.
 
 Currently available meta layer are:
 
-* `meta-rauc-nxp <https://github.com/rauc/meta-rauc-community/tree/contributing-dco/meta-rauc-nxp>`_:
+* `meta-rauc-nxp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-nxp>`_:
   RAUC demo layer for NXP hardware (meta-freescale)
-* `meta-rauc-qemux86 <https://github.com/rauc/meta-rauc-community/tree/contributing-dco/meta-rauc-qemux86>`_:
+* `meta-rauc-qemux86 <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-qemux86>`_:
   RAUC demo layer for qemux86-64
-* `meta-rauc-raspberrypi <https://github.com/rauc/meta-rauc-community/tree/contributing-dco/meta-rauc-raspberrypi>`_:
+* `meta-rauc-raspberrypi <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-raspberrypi>`_:
   RAUC demo layer for the Raspberry PI (meta-raspberrypi)
-* `meta-rauc-sunxi <https://github.com/rauc/meta-rauc-community/tree/contributing-dco/meta-rauc-sunxi>`_:
+* `meta-rauc-sunxi <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-sunxi>`_:
   RAUC demo layer for the Allwinner sunxi SoCs (meta-sunxi)
-* `meta-rauc-tegra <https://github.com/rauc/meta-rauc-community/tree/contributing-dco/meta-rauc-tegra>`_:
+* `meta-rauc-tegra <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-tegra>`_:
   RAUC demo layer for NVIDIA Jetson platforms, based on L4T (meta-tegra)
 
 The layers perform the required integration steps for setting up a redundant

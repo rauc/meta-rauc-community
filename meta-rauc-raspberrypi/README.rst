@@ -96,7 +96,7 @@ IV. Build and Install The Demo Bundle
 
 To build the bundle, run::
 
-  $ bitbake qemu-demo-bundle
+  $ bitbake update-bundle
 
 Copy the generated bundle to the target system via nc, scp or an attached USB stick.
 

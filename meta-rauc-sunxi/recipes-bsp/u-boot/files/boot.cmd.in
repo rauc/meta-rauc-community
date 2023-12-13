@@ -12,7 +12,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
   if test "x${bootpart}" != "x"; then
     # skip remaining slots
   elif test "x${BOOT_SLOT}" = "xA"; then
-    if test ${BOOT_A_LEFT} -gt 0; then
+    if itest ${BOOT_A_LEFT} -gt 0; then
       setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1
       echo "Found valid RAUC slot A"
       setenv bootpart "/dev/mmcblk0p2"
@@ -20,7 +20,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
       setenv BOOT_DEV "mmc 0:2"
     fi
   elif test "x${BOOT_SLOT}" = "xB"; then
-    if test ${BOOT_B_LEFT} -gt 0; then
+    if itest ${BOOT_B_LEFT} -gt 0; then
       setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1
       echo "Found valid RAUC slot B"
       setenv bootpart "/dev/mmcblk0p3"

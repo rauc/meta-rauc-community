@@ -14,7 +14,7 @@ integrated.
 Depending on your project's needs, your actual integration may significantly
 differ in some aspects.
 
-Currently available meta layer are:
+Currently available meta layers are:
 
 * `meta-rauc-nxp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-nxp>`_:
   RAUC demo layer for NXP hardware (meta-freescale)

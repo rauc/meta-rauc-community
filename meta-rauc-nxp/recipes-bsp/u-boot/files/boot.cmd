@@ -14,7 +14,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
         # stop checking after selecting a slot
 
     elif test "x${BOOT_SLOT}" = "xA"; then
-        if test ${BOOT_A_LEFT} -gt 0; then
+        if itest ${BOOT_A_LEFT} -gt 0; then
             setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1
             echo "Booting RAUC slot A"
 
@@ -24,7 +24,7 @@ for BOOT_SLOT in "${BOOT_ORDER}"; do
         fi
 
     elif test "x${BOOT_SLOT}" = "xB"; then
-        if test ${BOOT_B_LEFT} -gt 0; then
+        if itest ${BOOT_B_LEFT} -gt 0; then
             setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1
             echo "Booting RAUC slot B"
 

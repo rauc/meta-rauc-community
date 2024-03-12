@@ -26,41 +26,48 @@ echo 01 > $BASE/serial
 
 cat > $BASE/openssl.cnf <<EOF
 [ ca ]
-default_ca      = CA_default            # The default ca section
+default_ca      = CA_default               # The default ca section
 
 [ CA_default ]
 
-dir            = .                     # top dir
-database       = \$dir/index.txt        # index file.
-new_certs_dir  = \$dir/certs            # new certs dir
+dir            = .                         # top dir
+database       = \$dir/index.txt           # index file.
+new_certs_dir  = \$dir/certs               # new certs dir
 
-certificate    = \$dir/ca.cert.pem       # The CA cert
-serial         = \$dir/serial           # serial no file
-private_key    = \$dir/private/ca.key.pem# CA private key
-RANDFILE       = \$dir/private/.rand    # random number file
+certificate    = \$dir/ca.cert.pem         # The CA cert
+serial         = \$dir/serial              # serial no file
+private_key    = \$dir/private/ca.key.pem  # CA private key
+RANDFILE       = \$dir/private/.rand       # random number file
 
 default_startdate = 19700101000000Z
 default_enddate = 99991231235959Z
-default_crl_days= 30                   # how long before next CRL
-default_md     = sha256                # md to use
+default_crl_days= 30                       # how long before next CRL
+default_md     = sha256                    # md to use
 
-policy         = policy_any            # default policy
-email_in_dn    = no                    # Don't add the email into cert DN
+policy         = policy_any                # default policy
+email_in_dn    = no                        # Don't add the email into cert DN
 
-name_opt       = ca_default            # Subject name display option
-cert_opt       = ca_default            # Certificate display option
-copy_extensions = none                 # Don't copy extensions from request
+name_opt       = ca_default                # Subject name display option
+cert_opt       = ca_default                # Certificate display option
+copy_extensions = none                     # Don't copy extensions from request
 
 [ policy_any ]
 organizationName       = match
 commonName             = supplied
 
 [ req ]
-default_bits           = 2048
+default_bits           = 4096
 distinguished_name     = req_distinguished_name
 x509_extensions        = v3_leaf
 encrypt_key = no
 default_md = sha256
+attributes             = req_attributes
+prompt                 = no
+input_password         = rauc
+output_password        = rauc
+
+[ req_attributes ]
+challengePassword              = Robust Auto-Update Controller
 
 [ req_distinguished_name ]
 commonName                     = Common Name (eg, YOUR name)
@@ -90,12 +97,13 @@ export OPENSSL_CONF=$BASE/openssl.cnf
 cd $BASE
 
 echo "Development CA"
-openssl req -newkey rsa -keyout private/ca.key.pem -out ca.csr.pem -subj "/O=$ORG/CN=$ORG $CA Development"
-openssl ca -batch -selfsign -extensions v3_ca -in ca.csr.pem -out ca.cert.pem -keyfile private/ca.key.pem
+oe-run-native openssl-native openssl req -config $OPENSSL_CONF -newkey rsa:4096 -keyout private/ca.key.pem -out ca.csr.pem -subj "/O=$ORG/CN=$ORG $CA Development"
+
+oe-run-native openssl-native openssl ca -config $OPENSSL_CONF -batch -selfsign -extensions v3_ca -in ca.csr.pem -out ca.cert.pem -keyfile private/ca.key.pem
 
 echo "Development Signing Keys 1"
-openssl req -newkey rsa -keyout private/development-1.key.pem -out development-1.csr.pem -subj "/O=$ORG/CN=$ORG Development-1"
-openssl ca -batch -extensions v3_leaf -in development-1.csr.pem -out development-1.cert.pem
+oe-run-native openssl-native openssl req -config $OPENSSL_CONF -newkey rsa:4096 -keyout private/development-1.key.pem -out development-1.csr.pem -subj "/O=$ORG/CN=$ORG Development-1"
+oe-run-native openssl-native openssl ca -config $OPENSSL_CONF -batch -extensions v3_leaf -in development-1.csr.pem -out development-1.cert.pem
 
 
 CONFFILE=${BUILDDIR}/conf/site.conf

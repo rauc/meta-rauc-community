@@ -70,6 +70,14 @@ It is also recommended, but not strictly necessary, to enable 'systemd'::
 
    INIT_MANAGER = "systemd"
 
+Optionally, to update the Linux kernel using A/B partitions and a RAUC bundle, put the kernel in the rootfs::
+
+   IMAGE_INSTALL:append = " kernel-image"
+
+Optionally, to boot Linux kernel from the rootfs modify ``boot.cmd.in`` and replace ``fatload mmc 0:1 ${kernel_addr_r} @@KERNEL_IMAGETYPE@@`` with::
+
+   load ${BOOT_DEV} ${kernel_addr_r} boot/@@KERNEL_IMAGETYPE@@
+
 Build the minimal system image::
 
    $ bitbake core-image-minimal

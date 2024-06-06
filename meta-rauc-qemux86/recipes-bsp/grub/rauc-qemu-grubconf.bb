@@ -11,20 +11,21 @@ SRC_URI += " \
     file://grubenv \
     "
 
-S = "${WORKDIR}"
+S = "${WORKDIR}/sources"
+UNPACKDIR = "${S}"
 
 inherit deploy
 
 do_install() {
         install -d ${D}${EFI_FILES_PATH}
-        install -m 644 ${WORKDIR}/grub.cfg ${D}${EFI_FILES_PATH}/grub.cfg
+        install -m 644 ${S}/grub.cfg ${D}${EFI_FILES_PATH}/grub.cfg
 }
 
 FILES:${PN} += "${EFI_FILES_PATH}"
 
 do_deploy() {
-	install -m 644 ${WORKDIR}/grub.cfg ${DEPLOYDIR}
-	install -m 644 ${WORKDIR}/grubenv ${DEPLOYDIR}
+	install -m 644 ${S}/grub.cfg ${DEPLOYDIR}
+	install -m 644 ${S}/grubenv ${DEPLOYDIR}
 }
 
 addtask deploy after do_install before do_build

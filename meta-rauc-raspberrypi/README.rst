@@ -9,6 +9,11 @@ Dependencies
 * URI: https://github.com/rauc/meta-rauc.git
 * URI: https://git.yoctoproject.org/git/meta-raspberrypi
 
+If you want to build for Raspberry Pi 5 you will also need meta-lts-mixins:
+
+* URI: git://git.yoctoproject.org/meta-lts-mixins
+* branch: scarthgap/u-boot
+
 Patches
 =======
 

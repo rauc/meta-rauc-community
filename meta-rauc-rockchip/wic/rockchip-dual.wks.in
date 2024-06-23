@@ -1,0 +1,35 @@
+# Copyright (C) 2019,2020 Garmin Ltd. or its subsidiaries
+# Copyright (C) 2021 Trevor Woerner
+# Copyright (C) 2024 Leon Anavi
+# Released under the MIT license (see COPYING.MIT for the terms)
+#
+# short-description: Create a disk image suitable for booting Rockchip from SD-card
+# long-description: Creates a disk image partitioned using GPT, suitable for Rockchip
+# Disk layout
+# See: https://opensource.rock-chips.com/wiki_Partitions
+#
+#   Partition   Start Sector    Number of Sectors
+#   loader1     64              7104        (idbloader / U-Boot SPL)
+#   v_storage   7168            512         (vendor storage: e.g. serial number, MAC address, etc)
+#   reserved    7680            384         (not used)
+#   reserved1   8064            64          (legacy DRM key)
+#   uboot_env   8128            64          (U-Boot environment)
+#   reserved2   8192            8192        (legacy parameters, ATAGS, etc)
+#   loader2     16384           8192        (U-Boot proper)
+#   atf         24576           8192        (trusted OS e.g. ATF, OP-TEE, etc)
+#   root        32768           -
+
+part loader1   --offset 64s    --fixed-size 3552K --fstype=none --part-name loader1   --source rawcopy --sourceparams="file=${SPL_BINARY}"
+part v_storage --offset 7168s  --fixed-size 256K  --fstype=none --part-name v_storage
+part reserved  --offset 7680s  --fixed-size 192K  --fstype=none --part-name reserved
+part reserved1 --offset 8064s  --fixed-size 32K   --fstype=none --part-name reserved1
+part uboot_env --offset 8128s  --fixed-size 32K   --fstype=none --part-name uboot_env ${RK_UBOOT_ENV}
+part reserved2 --offset 8192s  --fixed-size 4096K --fstype=none --part-name reserved2
+part loader2   --offset 16384s --fixed-size 4096K --fstype=none --part-name loader2   --source rawcopy --sourceparams="file=u-boot.${UBOOT_SUFFIX}"
+part atf       --offset 24576s --fixed-size 4096K --fstype=none --part-name atf
+part /boot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/boot --fstype=ext4 --label boot --fixed-size 32M
+part /         --label rootfs_A --fstype=ext4 --part-name rootfsA   --source rootfs
+part /         --label rootfs_B --fstype=ext4 --part-name rootfsB   --source rootfs
+part /data     --fixed-size 100M --ondisk mmcblk1 --fstype=ext4 --label data
+
+bootloader --ptable gpt

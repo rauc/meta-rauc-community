@@ -1,13 +1,12 @@
 [Unit]
 Description=Service to grow data partition size
 DefaultDependencies=no
-Before=home.mount
+Before=data.mount
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/sbin/parted --script /dev/mmcblk0 resizepart 4 100%
-ExecStart=/usr/sbin/parted --script /dev/mmcblk0 resizepart 6 100%
+ExecStart=/usr/bin/grow-data-partition.sh
 
 [Install]
-WantedBy=home.mount
+WantedBy=data.mount

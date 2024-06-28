@@ -1,0 +1,12 @@
+[Unit]
+Description=Service to grow data partition size
+DefaultDependencies=no
+Before=data.mount
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/grow-data-partition.sh
+
+[Install]
+WantedBy=data.mount

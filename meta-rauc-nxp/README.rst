@@ -6,16 +6,19 @@ Dependencies
 ============
 
   URI: https://git.yoctoproject.org/poky
-  branch: kirkstone
+  branch: scarthgap
 
   URI: https://github.com/rauc/meta-rauc.git
-  branch: kirkstone
+  branch: scarthgap
 
   URI: https://git.yoctoproject.org/meta-freescale
-  branch: kirkstone
+  branch: scarthgap
 
-  URI: https://github.com/Freescale/meta-fsl-arm-extra.git
-  branch: kirkstone
+  URI: https://github.com/Freescale/meta-freescale-3rdparty.git
+  branch: scarthgap
+
+  URI: https://github.com/Freescale/meta-freescale-distro.git
+  branch: scarthgap
 
 
 Patches
@@ -24,7 +27,7 @@ Patches
 Please submit any patches against the meta-rauc-nxp layer via GitHub
 pull requests on https://github.com/rauc/meta-rauc-community.
 
-Maintainer: Atanas Bunchev <atanas.bunchev@konsulko.com>
+Maintainer: Leon Anavi <leon.anavi@konsulko.com>
 
 
 Disclaimers
@@ -45,8 +48,21 @@ I. Adding the meta-rauc-nxp layer to your build
 Run 'bitbake-layers add-layer meta-rauc-nxp'
 
 
-II. Build The cubox-i/HummingBoard Demo System
+II. Build NXP Demo System
 ===============================================
+
+For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf:
+
+    MACHINE = "olimex-imx8mp-evb"
+    INIT_MANAGER = "systemd"
+    ACCEPT_FSL_EULA = "1"
+    WKS_FILE = "dual-imx-boot-bootpart.wks.in"
+    DISTRO_FEATURES:append = " rauc"
+    IMAGE_FSTYPES:append = " ext4"
+    IMAGE_BOOT_FILES:append = " boot.scr"
+
+For cubox-i/HummingBoard follow the steps below:
+
 ::
 
     $ . oe-init-build-env

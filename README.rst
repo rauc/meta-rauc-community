@@ -21,7 +21,7 @@ Currently available meta layers are:
 * `meta-rauc-qemux86 <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-qemux86>`_:
   RAUC demo layer for qemux86-64
 * `meta-rauc-raspberrypi <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-raspberrypi>`_:
-  RAUC demo layer for the Raspberry PI (meta-raspberrypi)
+  RAUC demo layer for the Raspberry Pi (meta-raspberrypi)
 * `meta-rauc-sunxi <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-sunxi>`_:
   RAUC demo layer for the Allwinner sunxi SoCs (meta-sunxi)
 * `meta-rauc-tegra <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-tegra>`_:

@@ -6,8 +6,8 @@ Dependencies
 ============
 
 * URI: git://git.openembedded.org/openembedded-core
-* URI: https://github.com/rauc/meta-rauc.git
-* URI: https://git.yoctoproject.org/git/meta-raspberrypi
+* URI: https://github.com/rauc/meta-rauc
+* URI: https://github.com/agherzan/meta-raspberrypi
 
 If you want to build for Raspberry Pi 5 you will also need meta-lts-mixins:
 

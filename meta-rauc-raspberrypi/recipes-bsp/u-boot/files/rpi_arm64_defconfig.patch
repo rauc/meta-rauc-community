@@ -1,0 +1,26 @@
+From a367dab84601052ef0059070ab712545c18a1efa Mon Sep 17 00:00:00 2001
+From: Kevin Read <kread@om7sense.com>
+Subject: [PATCH 001/001]: Enable squashfs for u-boot so we can boot kernels directly from A/B rootfs
+
+Upstream-Status: Inappropriate [PDU specific]
+
+Enable squashfs support in u-boot for rpi_arm64_defconfig so we can boot
+the kernel directly from A/B rootfs.
+
+Signed-off-by: Kevin Read <kread@om7sense.com>
+---
+ configs/rpi_arm64_defconfig | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/configs/rpi_arm64_defconfig b/configs/rpi_arm64_defconfig
+index 08bb30b1d7a..c686b737381 100644
+--- a/configs/rpi_arm64_defconfig
++++ b/configs/rpi_arm64_defconfig
+@@ -57,3 +57,6 @@ CONFIG_SYS_WHITE_ON_BLACK=y
+ CONFIG_VIDEO_BCM2835=y
+ CONFIG_CONSOLE_SCROLL_LINES=10
+ CONFIG_PHYS_TO_BUS=y
++# squashfs support
++CONFIG_FS_SQUASHFS=y
++CONFIG_CMD_SQUASHFS=y
+

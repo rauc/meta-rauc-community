@@ -102,7 +102,11 @@ You can increase the size of rootfs to contain software added when updating::
 
 Create example authentication keys (from sourced environment)::
 
-    $ ../meta-rauc-community/create-example-keys.sh
+  $ ../meta-rauc-community/create-example-keys.sh
+
+This will place the keys in a directory ``example-ca/`` in your build dir and
+configure your ``conf/site.conf`` to let ``RAUC_KEYRING_FILE``,
+``RAUC_KEY_FILE`` and ``RAUC_CERT_FILE`` point to this.
 
 Build the minimal system image::
 

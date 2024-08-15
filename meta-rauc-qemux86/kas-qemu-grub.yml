@@ -1,6 +1,6 @@
 header:
-  # We require kas config version 10
-  version: 10
+  # We require kas config version 14
+  version: 14
 machine: qemux86-64
 distro: poky
 repos:
@@ -9,11 +9,11 @@ repos:
       meta-rauc-qemux86:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
-    refspec: "refs/remotes/origin/master"
+    branch: master
     path: layers/meta-rauc
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    refspec: "refs/remotes/origin/master"
+    branch: master
     path: layers/poky
     layers:
       meta:

@@ -7,7 +7,7 @@ repos:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
     refspec: "refs/remotes/origin/master"
-  meta-rauc-demo:
+  meta-rauc-community:
     url: "https://github.com/rauc/meta-rauc-community.git"
     refspec: "refs/remotes/origin/master"
     layers:

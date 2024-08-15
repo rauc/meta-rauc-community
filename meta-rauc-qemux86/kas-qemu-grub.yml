@@ -5,8 +5,6 @@ machine: qemux86-64
 distro: poky
 repos:
   meta-rauc-community:
-    url: "https://github.com/rauc/meta-rauc-community.git"
-    refspec: "refs/remotes/origin/master"
     layers:
       meta-rauc-qemux86:
   meta-rauc:

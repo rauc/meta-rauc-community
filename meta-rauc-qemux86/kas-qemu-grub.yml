@@ -10,9 +10,11 @@ repos:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
     refspec: "refs/remotes/origin/master"
+    path: layers/meta-rauc
   poky:
     url: "https://git.yoctoproject.org/git/poky"
     refspec: "refs/remotes/origin/master"
+    path: layers/poky
     layers:
       meta:
       meta-poky:

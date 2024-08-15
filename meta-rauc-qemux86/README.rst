@@ -173,6 +173,6 @@ A. Using 'kas' Tool to Build
   $ git clone https://github.com/rauc/meta-rauc-community.git
   $ kas checkout meta-rauc-community/meta-rauc-qemux86/kas-qemu-grub.yml
   $ kas shell meta-rauc-community/meta-rauc-qemux86/kas-qemu-grub.yml
-  % ../meta-rauc-community/create-example-keys.sh
+  % ../create-example-keys.sh
   % bitbake core-bundle-minimal
 

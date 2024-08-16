@@ -33,8 +33,7 @@ done
 setenv bootcmd_pxe ""
 
 if test -n "${bootpart}"; then
-  setenv bootargs console=${console} console=tty1 root=/dev/${rootdev} rootwait panic=10 ${extra}
-  setenv bootargs "${bootargs} root=${bootpart} rauc.slot=${raucslot}"
+  setenv bootargs "console=${console} console=tty1 root=${bootpart} rootwait panic=10 ${extra} rauc.slot=${raucslot}"
 else
   echo "No valid RAUC slot found. Resetting tries to 3"
   setenv BOOT_A_LEFT 3

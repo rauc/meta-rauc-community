@@ -14,6 +14,7 @@ DEFAULT_PREFERENCE:sun50i = "1"
 SRC_URI += " \
     file://fw_env.config \
     file://boot.cmd.in \
+    file://0001-A10-OLinuXino-Lime_defconfig-RAUC.patch \
 "
 
 UBOOT_ENV_SUFFIX = "scr"

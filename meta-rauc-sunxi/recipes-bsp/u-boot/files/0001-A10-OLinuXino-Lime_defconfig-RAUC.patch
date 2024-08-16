@@ -1,0 +1,26 @@
+From 10b67c04ec8c8bf7f74292da227812a8cbd48420 Mon Sep 17 00:00:00 2001
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Fri, 16 Aug 2024 12:34:41 +0000
+Subject: [PATCH] A10-OLinuXino-Lime_defconfig: RAUC
+
+Upstream-Status: Inappropriate [RAUC specific]
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ configs/A10-OLinuXino-Lime_defconfig | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/configs/A10-OLinuXino-Lime_defconfig b/configs/A10-OLinuXino-Lime_defconfig
+index 57e91d0f01..59e5e87fd2 100644
+--- a/configs/A10-OLinuXino-Lime_defconfig
++++ b/configs/A10-OLinuXino-Lime_defconfig
+@@ -22,3 +22,6 @@ CONFIG_AXP_ALDO4_VOLT=2800
+ CONFIG_SCSI=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_OHCI_HCD=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x0000
++CONFIG_ENV_IS_IN_FAT=y
+-- 
+2.44.1
+

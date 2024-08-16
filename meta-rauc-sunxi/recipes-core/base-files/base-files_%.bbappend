@@ -1,1 +1,4 @@
-FILESEXTRAPATHS:prepend:sun8i := "${THISDIR}/files:"
+FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
+
+# Add a mount point for a shared data partition
+dirs755 += "/data"

@@ -1,0 +1,32 @@
+From e17b94b2b4aad92f85a96f50d87baf43d5c70487 Mon Sep 17 00:00:00 2001
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Tue, 20 Aug 2024 06:52:25 +0000
+Subject: [PATCH] configs/A20-OLinuXino_MICRO_defconfig: RAUC
+
+Configure U-Boot environment location, size (CONFIG_ENV_SIZE) and
+offset (CONFIG_ENV_OFFSET) on the FAT partition for Olimex
+A20-OLinuXino-MICRO and after that use it in /etc/fw_env.config.
+
+Upstream-Status: Inappropriate [RAUC specific]
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ configs/A20-OLinuXino_MICRO_defconfig | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/configs/A20-OLinuXino_MICRO_defconfig b/configs/A20-OLinuXino_MICRO_defconfig
+index db4270f9b2..c814256ffc 100644
+--- a/configs/A20-OLinuXino_MICRO_defconfig
++++ b/configs/A20-OLinuXino_MICRO_defconfig
+@@ -25,3 +25,8 @@ CONFIG_AXP_ALDO4_VOLT=2800
+ CONFIG_SCSI=y
+ CONFIG_USB_EHCI_HCD=y
+ CONFIG_USB_OHCI_HCD=y
++CONFIG_AXP_ALDO3_VOLT_SLOPE_08=y
++CONFIG_AXP_ALDO3_INRUSH_QUIRK=y
++CONFIG_ENV_SIZE=0x20000
++CONFIG_ENV_OFFSET=0x0000
++CONFIG_ENV_IS_IN_FAT=y
+-- 
+2.44.1
+

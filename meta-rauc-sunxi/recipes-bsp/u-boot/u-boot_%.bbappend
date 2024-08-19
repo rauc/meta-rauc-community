@@ -15,6 +15,7 @@ SRC_URI += " \
     file://fw_env.config \
     file://boot.cmd.in \
     file://0001-A10-OLinuXino-Lime_defconfig-RAUC.patch \
+    file://0002-orangepi_one_defconfig-RAUC.patch \
 "
 
 UBOOT_ENV_SUFFIX = "scr"

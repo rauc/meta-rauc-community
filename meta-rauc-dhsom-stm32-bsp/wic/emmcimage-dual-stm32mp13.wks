@@ -1,0 +1,9 @@
+# short-description: Create DH STM32MP13 eMMCcard dual image with a boot partition
+# long-description: Creates a partitioned eMMC card image. Boot files
+# are located in the first ext4 partition.
+
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_A --part-name "rootfsA" --align 4096 --use-uuid --active
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_B --part-name "rootfsB" --align 4096 --use-uuid --active
+part /data --fixed-size 100M --ondisk mmcblk0 --fstype=ext4 --label data --align 4096
+
+bootloader --ptable gpt

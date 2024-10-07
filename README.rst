@@ -28,6 +28,8 @@ Currently available meta layers are:
   RAUC demo layer for NVIDIA Jetson platforms, based on L4T (meta-tegra)
 * `meta-rauc-rockchip <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-rockchip>`_:
   RAUC demo layer for Rock Pi 4 Model B and other Rockchip devices
+* `meta-rauc-dhsom-stm32-bsp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-dhsom-stm32-bsp>`_:
+  RAUC demo layer for industrial single board computer DHSBC STM32MP13
 
 The layers perform the required integration steps for setting up a redundant
 boot with RAUC:

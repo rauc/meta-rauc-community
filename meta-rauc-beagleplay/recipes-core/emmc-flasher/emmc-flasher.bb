@@ -17,7 +17,7 @@ FILES:${PN} = " \
     /emmc-image.wic.xz \
 "
 
-do_install[depends] += "${EMMC_FLASHER_IMAGE}:do_build"
+do_install[depends] += "${EMMC_FLASHER_IMAGE}:do_image_complete"
 
 do_install() {
     cp -L ${DEPLOY_DIR_IMAGE}/${EMMC_FLASHER_IMAGE}-${MACHINE}.rootfs.wic.xz ${D}/emmc-image.wic.xz

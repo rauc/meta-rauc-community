@@ -31,7 +31,7 @@ flash_emmc_image() {
     echo ""
     echo ""
 
-    echo "The ystem will not power off."
+    echo "The ystem will now power off."
     echo "Please remove the card after power off."
     poweroff
 }

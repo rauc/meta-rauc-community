@@ -1,0 +1,52 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          emmc-flasher
+# Required-Start:
+# Required-Stop:
+# Should-Start:
+# Should-Stop:
+# Default-Start:     5
+# Default-Stop:
+# Short-Description: Flash eMMC Image
+### END INIT INFO
+
+# License: MIT - https://mit-license.org
+
+PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin"
+
+flash_emmc_image() {
+    echo "################################################################"
+    echo "################################################################"
+    echo "###  Flashing eMMC Image...                                   ##"
+    xzcat /emmc-image.wic.xz | dd of=/dev/mmcblk0 bs=32k
+    echo "###  Flashing eMMC Image COMPLETE!                            ##"
+    echo "###  Installing Bootloader...                                 ##"
+    echo 0 > /sys/class/block/mmcblk0boot0/force_ro
+    BOOT_PART=$(mktemp -d)
+    mount /dev/mmcblk1p1 $BOOT_PART
+    dd if=$BOOT_PART/tiboot3.bin of=/dev/mmcblk0boot0
+    echo "###  Bootloader Installation COMPLETE!                        ##"
+    echo "################################################################"
+    echo "################################################################"
+    echo ""
+    echo ""
+
+    echo "The ystem will not power off."
+    echo "Please remove the card after power off."
+    poweroff
+}
+
+
+case "$1" in
+start)
+	flash_emmc_image
+	;;
+
+*)
+	echo "Usage: /etc/init.d/emmc-flasher {start}"
+	exit 1
+	;;
+esac
+
+exit 0
+

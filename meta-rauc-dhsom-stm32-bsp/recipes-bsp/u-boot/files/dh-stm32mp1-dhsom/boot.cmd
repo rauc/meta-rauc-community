@@ -50,22 +50,17 @@ if test ! -e ${devtype} ${devnum}:${bootpartition} ${bootfile}; then
   exit 1
 fi
 
-part uuid ${devtype} ${devnum}:${rootpartition} uuid
-
 # Some STM32MP1-based systems do not encode the baudrate in the console variable
 if test "${console}" = "ttySTM0" && test -n "${baudrate}"; then
   setenv console "${console},${baudrate}"
 fi
 
-if test -n "${console}"; then
-  setenv bootargs "${bootargs} console=${console}"
-fi
-
-setenv bootargs "${bootargs} root=PARTUUID=${uuid} rw rootwait consoleblank=0"
-
-
 if test -n "${bootpart}"; then
-    setenv bootargs "${bootargs} root=PARTUUID=${uuid} rw rootwait consoleblank=0 rauc.slot=${raucslot}"
+    if test -n "${console}"; then
+        setenv bootargs "root=${bootpart} rw rootwait consoleblank=0 console=${console} quiet loglevel=0 rauc.slot=${raucslot}"
+    else
+        setenv bootargs "root=${bootpart} rw rootwait consoleblank=0 quiet loglevel=0 rauc.slot=${raucslot}"
+    fi
     saveenv
 else
     echo "No valid RAUC slot found. Resetting attempts to 3"

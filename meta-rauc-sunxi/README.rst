@@ -46,6 +46,7 @@ Currently this layer supports:
 - Orange Pi One
 - Orange Pi Zero
 - Merrii A80 Optimus board
+- Cubieboard4 A80
 
 
 I. Adding the meta-rauc-sunxi layer to your build

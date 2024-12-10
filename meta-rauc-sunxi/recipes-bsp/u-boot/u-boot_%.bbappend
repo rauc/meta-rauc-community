@@ -19,6 +19,7 @@ SRC_URI += " \
     file://0003-orangepi_zero_defconfig-RAUC.patch \
     file://0004-configs-A20-OLinuXino_MICRO_defconfig-RAUC.patch \
     file://0005-configs-Merrii_A80_Optimus_defconfig-RAUC.patch \
+    file://0006-Add-support-for-Cubieboard-4-board-with-Allwinner-80.patch \
 "
 
 UBOOT_ENV_SUFFIX = "scr"

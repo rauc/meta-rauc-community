@@ -18,6 +18,7 @@ SRC_URI += " \
     file://0002-orangepi_one_defconfig-RAUC.patch \
     file://0003-orangepi_zero_defconfig-RAUC.patch \
     file://0004-configs-A20-OLinuXino_MICRO_defconfig-RAUC.patch \
+    file://0005-configs-Merrii_A80_Optimus_defconfig-RAUC.patch \
 "
 
 UBOOT_ENV_SUFFIX = "scr"

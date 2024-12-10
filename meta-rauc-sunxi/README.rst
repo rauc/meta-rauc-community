@@ -45,6 +45,7 @@ Currently this layer supports:
 - Olimex A20-OLinuXino-MICRO
 - Orange Pi One
 - Orange Pi Zero
+- Merrii A80 Optimus board
 
 
 I. Adding the meta-rauc-sunxi layer to your build

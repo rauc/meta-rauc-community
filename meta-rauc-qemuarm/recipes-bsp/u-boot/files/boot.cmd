@@ -1,0 +1,58 @@
+# Environment variables expected by RAUC
+# See https://rauc.readthedocs.io/en/latest/integration.html#set-up-u-boot-boot-script-for-rauc
+test -n "${BOOT_ORDER}" || setenv BOOT_ORDER "A B"
+test -n "${BOOT_A_LEFT}" || setenv BOOT_A_LEFT 3
+test -n "${BOOT_B_LEFT}" || setenv BOOT_B_LEFT 3
+
+setenv virtio_device_num "0"
+
+setenv bootargs_default ""
+
+setenv rootfs_partition
+setenv rauc_slot
+
+echo "=== Determining active slot to be booted ==="
+for slot in "${BOOT_ORDER}"; do
+  if test "x${rauc_slot}" != "x"; then
+    # rauc_slot already found, performing no-op
+    echo "[DEBUG] Skipping ${slot} slot..."
+  elif test "x${slot}" = "xA"; then
+    if test ${BOOT_A_LEFT} -gt 0; then
+      setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1
+      setenv rootfs_partition "2"
+      setenv rauc_slot "A"
+      echo "[INFO] Selected rootfs slot A!"
+    fi
+  elif test "x${slot}" = "xB"; then
+    if test ${BOOT_B_LEFT} -gt 0; then
+      setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1
+      setenv rootfs_partition "3"
+      setenv rauc_slot "B"
+      echo "[INFO] Selected rootfs slot B!"
+    fi
+  fi
+done
+
+if test "x${rauc_slot}" = "x"; then
+  echo "[ERROR] No valid slot found! Resetting tries to 3 and exiting script..."
+  setenv BOOT_A_LEFT 3
+  setenv BOOT_B_LEFT 3
+  saveenv
+  exit
+fi
+
+echo "=== Loading device tree from p${rootfs_partition} to ${fdt_addr} ==="
+ext4load virtio ${virtio_device_num}:${rootfs_partition} ${fdt_addr} /boot/qemuarm.dtb
+
+echo "=== Loading kernel zImage from p${rootfs_partition} to ${kernel_addr_r} ==="
+ext4load virtio ${virtio_device_num}:${rootfs_partition} ${kernel_addr_r} /boot/zImage
+
+echo "=== Setting bootargs (rootfs in p${rootfs_partition} and slot ${rauc_slot}) ==="
+setenv bootargs "${bootargs_default} root=/dev/vda${rootfs_partition} rootfstype=ext4 rauc.slot=${rauc_slot}"
+echo "[DEBUG] bootargs: ${bootargs}"
+
+echo "=== Persisting environment in flash ==="
+saveenv
+
+echo "=== Booting the system now! ==="
+bootz ${kernel_addr_r} - ${fdt_addr}

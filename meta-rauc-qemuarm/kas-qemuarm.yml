@@ -1,0 +1,51 @@
+header:
+  version: 14
+
+machine: qemuarm
+distro: poky
+
+defaults:
+  repos:
+    branch: styhead
+
+repos:
+  meta-rauc-community:
+    layers:
+      meta-rauc-qemuarm:
+  meta-rauc:
+    url: "https://github.com/rauc/meta-rauc.git"
+    path: layers/meta-rauc
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    path: layers/poky
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+
+target:
+  - core-image-minimal
+  - update-bundle
+
+local_conf_header:
+  meta-custom: |
+    # MACHINE
+    # ---
+    PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
+
+    QB_DEFAULT_BIOS:qemuarm = "u-boot.bin"
+    QB_ROOTFS_OPT:qemuarm = "-drive id=disk0,file=@ROOTFS@,if=none,format=qcow2 -device virtio-blk-device,drive=disk0"
+    QB_OPT_APPEND:qemuarm += " -drive if=pflash,format=raw,index=1,file=${TMPDIR}/deploy/images/${MACHINE}/bootenv.img"
+    QB_MEM:qemuarm = "-m 3G"
+
+    # DISTRO
+    # ---
+    DISTRO_FEATURES:append = " rauc"
+    INIT_MANAGER = "systemd"
+
+    PREFERRED_RPROVIDER_u-boot-default-env = "libubootenv"
+
+    # IMAGE
+    # ---
+    EXTRA_IMAGE_FEATURES += "debug-tweaks"
+    EXTRA_IMAGE_FEATURES += "ssh-server-openssh"

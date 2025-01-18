@@ -1,0 +1,18 @@
+# short-description: Create Qemu disk image
+# long-description: Creates a partitioned Qemu disk image for use with the RAUC update tool.
+# The partition scheme provides:
+# * a boot partition containing additional data used by the bootloader
+# * two root file system partitions for atomic updates
+# * a common data partition
+#
+# Note: Qemu does not come with a bundled u-boot, so the BIOS parameter is used to pass in the
+# built binary. The system image does not contain the bootloader. 
+
+bootloader --ptable gpt
+
+part --ondisk vda --source bootimg-partition --fstype=vfat --active --fixed-size 16M --label bootfiles --align 4096
+
+part / --ondisk vda --source rootfs --fstype=ext4 --fixed-size 250M --label root_a --align 4096
+part / --ondisk vda --source empty --fstype=ext4 --fixed-size 250M --label root_b --align 4096
+
+part /data --ondisk vda --fstype=ext4 --size 100M --label data

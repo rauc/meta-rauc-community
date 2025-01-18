@@ -18,6 +18,8 @@ Currently available meta layers are:
 
 * `meta-rauc-nxp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-nxp>`_:
   RAUC demo layer for NXP hardware (meta-freescale)
+* `meta-rauc-qemuarm <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-qemuarm>`_:
+  RAUC demo layer for qemuarm
 * `meta-rauc-qemux86 <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-qemux86>`_:
   RAUC demo layer for qemux86-64
 * `meta-rauc-raspberrypi <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-raspberrypi>`_:

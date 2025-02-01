@@ -75,10 +75,6 @@ It is also recommended, but not strictly necessary, to enable 'systemd'::
 
    INIT_MANAGER = "systemd"
 
-Create example authentication keys (from sourced environment)::
-
-  $ ../meta-rauc-community/create-example-keys.sh
-
 This will place the keys in a directory ``example-ca/`` in your build dir and
 configure your ``conf/site.conf`` to let ``RAUC_KEYRING_FILE``,
 ``RAUC_KEY_FILE`` and ``RAUC_CERT_FILE`` point to this.

@@ -100,10 +100,6 @@ You can increase the size of rootfs to contain software added when updating::
     # Add 150 000 Kbytes free space to rootfs
     IMAGE_ROOTFS_EXTRA_SPACE:append = " + 150000"
 
-Create example authentication keys (from sourced environment)::
-
-    $ ../meta-rauc-community/create-example-keys.sh
-
 Build the minimal system image::
 
     $ bitbake core-image-minimal

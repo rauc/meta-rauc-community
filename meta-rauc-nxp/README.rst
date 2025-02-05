@@ -5,20 +5,13 @@ Please see the corresponding sections below for details.
 Dependencies
 ============
 
-  URI: https://git.yoctoproject.org/poky
-  branch: styhead
+This layer depends on:
 
-  URI: https://github.com/rauc/meta-rauc.git
-  branch: styhead
-
-  URI: https://git.yoctoproject.org/meta-freescale
-  branch: styhead
-
-  URI: https://github.com/Freescale/meta-freescale-3rdparty.git
-  branch: styhead
-
-  URI: https://github.com/Freescale/meta-freescale-distro.git
-  branch: styhead
+* `oe-core <https://git.openembedded.org/openembedded-core>`__
+* `meta-rauc <https://github.com/rauc/meta-rauc.git>`__
+* `meta-freescale <https://git.yoctoproject.org/meta-freescale>`__
+* `meta-freescale-3rdparty <https://github.com/Freescale/meta-freescale-3rdparty.git>`__
+* `meta-freescale-distro <https://github.com/Freescale/meta-freescale-distro.git>`__
 
 
 Patches
@@ -39,19 +32,22 @@ Actual requirements may differ from project to project and will
 probably need a much different RAUC/bootloader/system configuration.
 
 
-Currently this layer supports only cubox-i/HummingBoard boards.
+Currently this layer supports:
+
+* cubox-i/HummingBoard boards
+* Olimex iMX8MP-SOM-4GB-IND / iMX8MP-SOM-EVB-IND
 
 
 I. Adding the meta-rauc-nxp layer to your build
 ===============================================
 
-Run 'bitbake-layers add-layer meta-rauc-nxp'
+Run ``bitbake-layers add-layer meta-rauc-nxp``
 
 
 II. Build NXP Demo System
 ===============================================
 
-For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf:
+For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf::
 
     MACHINE = "olimex-imx8mp-evb"
     INIT_MANAGER = "systemd"
@@ -61,9 +57,7 @@ For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf:
     IMAGE_FSTYPES:append = " ext4"
     IMAGE_BOOT_FILES:append = " boot.scr"
 
-For cubox-i/HummingBoard follow the steps below:
-
-::
+For cubox-i/HummingBoard follow the steps below::
 
     $ . oe-init-build-env
 
@@ -113,7 +107,7 @@ III. Flash & Run the Demo System
 ================================
 
 Before flashing it's recommended to make sure that any traces
-of u-boot environment that may have been left from prevous use
+of u-boot environment that may have been left from previous use
 of the SD card with the cubox-i/hummingboard board are erased::
 
     $ dd if=/dev/zero of=/dev/sdX count=10000

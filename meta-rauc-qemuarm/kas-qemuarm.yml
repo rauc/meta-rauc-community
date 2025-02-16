@@ -1,7 +1,7 @@
 header:
   version: 14
 
-machine: qemuarm
+machine: qemuarm64
 distro: poky
 
 defaults:
@@ -33,10 +33,10 @@ local_conf_header:
     # ---
     PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
 
-    QB_DEFAULT_BIOS:qemuarm = "u-boot.bin"
-    QB_ROOTFS_OPT:qemuarm = "-drive id=disk0,file=@ROOTFS@,if=none,format=qcow2 -device virtio-blk-device,drive=disk0"
-    QB_OPT_APPEND:qemuarm += " -drive if=pflash,format=raw,index=1,file=${TMPDIR}/deploy/images/${MACHINE}/bootenv.img"
-    QB_MEM:qemuarm = "-m 3G"
+    QB_DEFAULT_BIOS:qemuarm64 = "u-boot.bin"
+    QB_ROOTFS_OPT:qemuarm64 = "-drive id=disk0,file=@ROOTFS@,if=none,format=qcow2 -device virtio-blk-device,drive=disk0"
+    QB_OPT_APPEND:qemuarm64 += " -drive if=pflash,format=raw,index=1,file=${TMPDIR}/deploy/images/${MACHINE}/bootenv.img"
+    QB_MEM:qemuarm64 = "-m 3G"
 
     # DISTRO
     # ---

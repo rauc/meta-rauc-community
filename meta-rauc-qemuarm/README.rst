@@ -34,9 +34,12 @@ II. Build the qemu demo system
 
   $ source oe-init-build-env
 
-Set the ``MACHINE`` to ``qemuarm`` or your custom configuration based on that::
+Set the ``MACHINE`` to ``qemuarm64`` or your custom configuration based on that::
 
-   MACHINE = "qemuarm"
+   MACHINE = "qemuarm64"
+
+Note: This layer also supports the ``qemuarm`` machine, but defaults to aarch64.
+Be sure to adjust the machine specific configuration when using the 32-bit variant.
 
 Make sure either your machine (recommended) or your ``local.conf`` configure the
 ``u-boot`` related options::
@@ -56,13 +59,13 @@ If you also want to used ``systemd``, you should also add::
 To properly support the ``qcow2`` image format used in the demo and ``u-boot`` as bootloader,
 you need to provide the following qemu boot option::
  
-   QB_DEFAULT_BIOS:qemuarm = "u-boot.bin"
-   QB_ROOTFS_OPT:qemuarm = "-drive id=disk0,file=@ROOTFS@,if=none,format=qcow2 -device virtio-blk-device,drive=disk0"
-   QB_OPT_APPEND:qemuarm += " -drive if=pflash,format=raw,index=1,file=${TMPDIR}/deploy/images/${MACHINE}/bootenv.img"
+   QB_DEFAULT_BIOS:qemuarm64 = "u-boot.bin"
+   QB_ROOTFS_OPT:qemuarm64 = "-drive id=disk0,file=@ROOTFS@,if=none,format=qcow2 -device virtio-blk-device,drive=disk0"
+   QB_OPT_APPEND:qemuarm64 += " -drive if=pflash,format=raw,index=1,file=${TMPDIR}/deploy/images/${MACHINE}/bootenv.img"
 
 The last line makes the bootloader environment persisting reboots.
 If you want to increase the memory available to your emulated system, you can
-add something like ``QB_MEM:qemuarm = "-m 3G"`` here, too.
+add something like ``QB_MEM:qemuarm64 = "-m 3G"`` here, too.
 
 Finally, you might enable ``debug-tweaks`` and an ssh server in your ``local.conf`` to simplify
 interaction with the system::
@@ -86,7 +89,7 @@ Boot the qemu image::
     $ runqemu core-image-minimal wic.qcow2 nographic slirp
     
     ...
-    root@qemuarm:~#
+    root@qemuarm64:~#
 
 To see that RAUC is configured correctly and can interact with the bootloader,
 run::
@@ -118,15 +121,15 @@ Obtain an IP address on the target::
 
 Copy update the bundle from your host to the target::
 
-    $ scp -P 2222 tmp/deploy/images/qemuarm/update-bundle-qemuarm.raucb root@localhost:/tmp
+    $ scp -P 2222 tmp/deploy/images/qemuarm64/update-bundle-qemuarm64.raucb root@localhost:/tmp
 
 Check the bundle on the target::
 
-    # rauc info /tmp/update-bundle-qemuarm.raucb
+    # rauc info /tmp/update-bundle-qemuarm64.raucb
 
 Install the bundle::
 
-    # rauc install /tmp/update-bundle-qemuarm.raucb
+    # rauc install /tmp/update-bundle-qemuarm64.raucb
     
 Reboot the system::
 

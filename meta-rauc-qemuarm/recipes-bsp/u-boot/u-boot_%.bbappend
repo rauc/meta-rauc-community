@@ -20,23 +20,39 @@ FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI += " \
     file://0001-qemu-arm-prefer-virtio-as-boot-source.patch \
     file://fw_env.config \
-    file://boot.cmd \
+    file://boot.cmd.in \
 "
+
+# The boot script loads the devicetree from the rootfs, so we need to make sure it's deployed.
+RDEPENDS:${PN} = " kernel-devicetree"
+
+KERNEL_DEVICETREE:qemuarm = "qemuarm.dtb"
+KERNEL_BOOTCMD:qemuarm = "bootm"
+KERNEL_DEVICETREE:qemuarm64 = "qemuarm64.dtb"
+KERNEL_BOOTCMD:qemuarm64 = "booti"
 
 # Compile the boot.scr and make it available in the DEPLOYDIR
 UBOOT_ENV:qemuarm = "boot"
+UBOOT_ENV:qemuarm64 = "boot"
 UBOOT_ENV_SUFFIX:qemuarm = "scr"
-
-# The boot script loads the devicetree from the rootfs, so we need to make sure it's deployed.
-RDEPENDS:${PN}:qemuarm = " kernel-devicetree"
+UBOOT_ENV_SUFFIX:qemuarm64 = "scr"
 
 # Set the required entrypoint and loadaddress
 # These are usually 00008000 for ARM machines
 UBOOT_ENTRYPOINT:qemuarm = "0x00008000"
+UBOOT_ENTRYPOINT:qemuarm64 = "0x00008000"
 UBOOT_LOADADDRESS:qemuarm = "0x00008000"
+UBOOT_LOADADDRESS:qemuarm64 = "0x00008000"
 
 # Provide the empty flash image to persist the bootloader environment
 UBOOT_BOOTENV_FILE = "bootenv.img"
+
+do_configure:prepend () {
+    sed -e 's/@@KERNEL_DEVICETREE@@/${KERNEL_DEVICETREE}/' \
+        -e 's/@@KERNEL_IMAGETYPE@@/${KERNEL_IMAGETYPE}/' \
+        -e 's/@@KERNEL_BOOTCMD@@/${KERNEL_BOOTCMD}/' \
+        "${UNPACKDIR}/boot.cmd.in" > "${UNPACKDIR}/boot.cmd"
+}
 
 do_deploy:append (){
     # Note: The flash size is predefined by qemu

@@ -42,10 +42,10 @@ if test "x${rauc_slot}" = "x"; then
 fi
 
 echo "=== Loading device tree from p${rootfs_partition} to ${fdt_addr} ==="
-ext4load virtio ${virtio_device_num}:${rootfs_partition} ${fdt_addr} /boot/qemuarm.dtb
+ext4load virtio ${virtio_device_num}:${rootfs_partition} ${fdt_addr} /boot/@@KERNEL_DEVICETREE@@
 
-echo "=== Loading kernel zImage from p${rootfs_partition} to ${kernel_addr_r} ==="
-ext4load virtio ${virtio_device_num}:${rootfs_partition} ${kernel_addr_r} /boot/zImage
+echo "=== Loading kernel image from p${rootfs_partition} to ${kernel_addr_r} ==="
+ext4load virtio ${virtio_device_num}:${rootfs_partition} ${kernel_addr_r} /boot/@@KERNEL_IMAGETYPE@@
 
 echo "=== Setting bootargs (rootfs in p${rootfs_partition} and slot ${rauc_slot}) ==="
 setenv bootargs "${bootargs_default} root=/dev/vda${rootfs_partition} rootfstype=ext4 rauc.slot=${rauc_slot}"
@@ -55,4 +55,4 @@ echo "=== Persisting environment in flash ==="
 saveenv
 
 echo "=== Booting the system now! ==="
-bootz ${kernel_addr_r} - ${fdt_addr}
+@@KERNEL_BOOTCMD@@ ${kernel_addr_r} - ${fdt_addr}

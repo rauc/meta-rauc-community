@@ -18,6 +18,7 @@ IMAGE_FSTYPES = "tar.bz2 wic.qcow2"
 IMAGE_BOOT_FILES = "boot.scr"
 
 WKS_FILE:qemuarm = "rauc-qemuarm.wks"
+WKS_FILE:qemuarm64 = "rauc-qemuarm.wks"
 
 do_image_wic[depends] += " \
     u-boot:do_deploy \

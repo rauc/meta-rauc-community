@@ -50,6 +50,7 @@ Add configuration required for meta-rauc-st-stm32mp to your local.conf::
    DISTRO="openstlinux-weston"
    ENABLE_FLASHLAYOUT_DEFAULT="1"
    FLASHLAYOUT_DEFAULT_SRC = "files/flashlayouts/FlashLayout_sdcard_dual_stm32mp157f-dk2-opteemin.tsv"
+   UBOOT_EXTLINUX_KERNEL_ARGS = "rootwait rw rauc.slot=${raucslot}"
    UBOOT_EXTLINUX_ROOT:target-sdcard:stm32mp15-disco="root=PARTLABEL=${bootpart}"
    UBOOT_EXTLINUX_ROOT:target-emmc:stm32mp15-disco="root=PARTLABEL=${bootpart}"
 

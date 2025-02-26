@@ -1,0 +1,28 @@
+From ce21e2df85f7629d18c3949eac4aee1e8878d9bb Mon Sep 17 00:00:00 2001
+From: Leon Anavi <leon.anavi@konsulko.com>
+Date: Tue, 25 Feb 2025 18:45:53 +0000
+Subject: [PATCH] configs/stm32mp15_defconfig: RAUC
+
+Upstream-Status: Inappropriate [RAUC specific]
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
+---
+ configs/stm32mp15_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/stm32mp15_defconfig b/configs/stm32mp15_defconfig
+index 5821cb3d235..10d6177a083 100644
+--- a/configs/stm32mp15_defconfig
++++ b/configs/stm32mp15_defconfig
+@@ -22,7 +22,7 @@ CONFIG_FIT_SIGNATURE=y
+ CONFIG_LEGACY_IMAGE_FORMAT=y
+ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_BOOTDELAY=1
+-CONFIG_BOOTCOMMAND="run bootcmd_stm32mp"
++CONFIG_BOOTCOMMAND="if test ${boot_device} = serial || test ${boot_device} = usb;then stm32prog ${boot_device} ${boot_instance}; fi; load mmc 0:8 $loadaddr boot.scr.uimg; source $loadaddr; run bootcmd_stm32mp;"
+ CONFIG_FDT_SIMPLEFB=y
+ CONFIG_SYS_PROMPT="STM32MP> "
+ CONFIG_SYS_PBSIZE=1050
+-- 
+2.44.1
+

@@ -30,6 +30,8 @@ Currently available meta layers are:
   RAUC demo layer for Rock Pi 4 Model B and other Rockchip devices
 * `meta-rauc-dhsom-stm32-bsp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-dhsom-stm32-bsp>`_:
   RAUC demo layer for industrial single board computer DHSBC STM32MP13
+* `meta-rauc-st-stm32mp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-st-stm32mp>`_:
+  RAUC demo layer for STM32MP157F-DK2 and other STM32MP embedded Linux devices
 
 The layers perform the required integration steps for setting up a redundant
 boot with RAUC:

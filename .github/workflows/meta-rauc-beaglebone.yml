@@ -1,24 +1,24 @@
-name: build meta-rauc-raspberrypi
+name: build meta-rauc-beaglebone
 
 on:
   push:
     branches:
       - master
     paths:
-      - '.github/workflows/meta-rauc-raspberrypi.yml'
-      - 'meta-rauc-raspberrypi/**'
+      - '.github/workflows/meta-rauc-beaglebone.yml'
+      - 'meta-rauc-beaglebone/**'
   pull_request:
     branches:
       - master
     paths:
-      - '.github/workflows/meta-rauc-raspberrypi.yml'
-      - 'meta-rauc-raspberrypi/**'
+      - '.github/workflows/meta-rauc-beaglebone.yml'
+      - 'meta-rauc-beaglebone/**'
   # allow rebuilding without a push
   workflow_dispatch: {}
 
 jobs:
   build:
-    name: meta-rauc-raspberrypi Build
+    name: meta-rauc-beaglebone Build
     # run on self-hosted runner for the main repo or if vars.BUILD_RUNS_ON is set
     runs-on: >-
       ${{
@@ -33,17 +33,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Clone poky
-        run: git clone --shared --reference-if-able /srv/shared-git/poky.git -b master https://github.com/yoctoproject/poky.git
+        run: git clone --shared --reference-if-able /srv/shared-git/poky.git -b scarthgap https://github.com/yoctoproject/poky.git
       - name: Clone meta-rauc
-        run: git clone --shared --reference-if-able /srv/shared-git/meta-rauc.git -b master https://github.com/rauc/meta-rauc.git
-      - name: Clone meta-raspberrypi
-        run: git clone --shared --reference-if-able /srv/shared-git/meta-raspberrypi.git -b master https://github.com/agherzan/meta-raspberrypi.git
+        run: git clone --shared --reference-if-able /srv/shared-git/meta-rauc.git -b scarthgap https://github.com/rauc/meta-rauc.git
       - name: Initialize build directory
         run: |
           source poky/oe-init-build-env build
           bitbake-layers add-layer ../meta-rauc
-          bitbake-layers add-layer ../meta-raspberrypi
-          bitbake-layers add-layer ../meta-rauc-raspberrypi
+          bitbake-layers add-layer ../meta-rauc-beaglebone
           if [ -f ~/.yocto/auto.conf ]; then
             cp ~/.yocto/auto.conf conf/
             echo 'SOURCE_MIRROR_URL = "http://10.0.2.2/rauc-community/downloads"' >> conf/auto.conf
@@ -55,11 +52,12 @@ jobs:
             echo 'INHERIT += "rm_work"' >> conf/auto.conf
           fi
           echo 'DISTRO_FEATURES:remove = "alsa bluetooth usbgadget usbhost wifi nfs zeroconf pci 3g nfc x11 opengl ptest wayland vulkan"' >> conf/local.conf
-          echo 'MACHINE = "raspberrypi4"' >> conf/local.conf
+          echo 'MACHINE = "beaglebone-yocto"' >> conf/local.conf
           echo 'DISTRO_FEATURES:append = " rauc"' >> conf/local.conf
           echo 'IMAGE_INSTALL:append = " rauc"' >> conf/local.conf
           echo 'IMAGE_FSTYPES = "ext4 wic.zst"' >> conf/local.conf
-          echo 'WKS_FILE = "sdimage-dual-raspberrypi.wks.in"' >> conf/local.conf
+          echo 'WKS_FILE = "beaglebone-yocto-dual.wks.in"' >> conf/local.conf
+          echo 'IMAGE_BOOT_FILES:append = " boot.scr"' >> conf/local.conf
       - name: Show configuration files
         run: |
           cd build/conf
@@ -98,8 +96,6 @@ jobs:
         uses: jluebbe/forrest-upload-artifact@summary
         with:
           path: |
-            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.ext4
-            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.manifest
-            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.spdx.json
-            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.testdata.json
-            build/tmp/deploy/images/raspberrypi4/update-bundle-raspberrypi4.raucb
+            build/tmp/deploy/images/beaglebone-yocto/core-image-minimal-beaglebone-yocto.rootfs.wic.xz
+            build/tmp/deploy/images/beaglebone-yocto/core-image-minimal-beaglebone-yocto.rootfs.spdx.tar.zst
+            build/tmp/deploy/images/beaglebone-yocto/update-bundle-beaglebone-yocto.raucb

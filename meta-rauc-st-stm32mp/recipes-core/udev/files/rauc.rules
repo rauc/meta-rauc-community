@@ -2,3 +2,5 @@
 /dev/disk/by-path/platform-soc-amba-58005000.mmc-part11
 /dev/mmcblk0p10
 /dev/mmcblk0p11
+/dev/mmcblk1p10
+/dev/mmcblk1p11

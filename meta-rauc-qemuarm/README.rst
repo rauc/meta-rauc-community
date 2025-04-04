@@ -67,10 +67,10 @@ The last line makes the bootloader environment persisting reboots.
 If you want to increase the memory available to your emulated system, you can
 add something like ``QB_MEM:qemuarm64 = "-m 3G"`` here, too.
 
-Finally, you might enable ``debug-tweaks`` and an ssh server in your ``local.conf`` to simplify
-interaction with the system::
+You should also enable some debug tweaks and an ssh server in your
+``local.conf`` to simplify interaction with the system::
 
-   EXTRA_IMAGE_FEATURES += "debug-tweaks"
+   EXTRA_IMAGE_FEATURES += "allow-empty-password allow-root-login empty-root-password"
    EXTRA_IMAGE_FEATURES += "ssh-server-openssh"
 
 This will place the keys in a directory ``example-ca/`` in your build dir and

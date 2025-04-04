@@ -30,5 +30,5 @@ local_conf_header:
     WKS_FILE = "qemux86-grub-efi.wks"
     EXTRA_IMAGEDEPENDS += "ovmf"
     PREFERRED_RPROVIDER_virtual-grub-bootconf = "rauc-qemu-grubconf"
-    EXTRA_IMAGE_FEATURES += "debug-tweaks"
+    EXTRA_IMAGE_FEATURES += "allow-empty-password allow-root-login empty-root-password"
     EXTRA_IMAGE_FEATURES += "ssh-server-openssh"

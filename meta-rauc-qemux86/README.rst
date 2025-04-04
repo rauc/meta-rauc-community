@@ -65,10 +65,10 @@ Make sure either your distro (recommended) or your local.conf have ``rauc``
 
    DISTRO_FEATURES:append = " rauc"
 
-You should also enable ``debug-tweaks`` and an ssh server to simplify
+You should also enable some debug tweaks and an ssh server to simplify
 interaction with the system::
 
-   EXTRA_IMAGE_FEATURES += "debug-tweaks"
+   EXTRA_IMAGE_FEATURES += "allow-empty-password allow-root-login empty-root-password"
    EXTRA_IMAGE_FEATURES += "ssh-server-openssh"
 
 It is also recommended, but not strictly necessary, to enable 'systemd'::

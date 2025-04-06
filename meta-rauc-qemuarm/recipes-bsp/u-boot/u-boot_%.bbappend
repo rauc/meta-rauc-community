@@ -27,7 +27,7 @@ SRC_URI += " \
 RDEPENDS:${PN} = " kernel-devicetree"
 
 KERNEL_DEVICETREE:qemuarm = "qemuarm.dtb"
-KERNEL_BOOTCMD:qemuarm = "bootm"
+KERNEL_BOOTCMD:qemuarm = "bootz"
 KERNEL_DEVICETREE:qemuarm64 = "qemuarm64.dtb"
 KERNEL_BOOTCMD:qemuarm64 = "booti"
 

@@ -6,7 +6,7 @@ distro: poky
 
 defaults:
   repos:
-    branch: styhead
+    branch: walnascar
 
 repos:
   meta-rauc-community:
@@ -14,6 +14,7 @@ repos:
       meta-rauc-qemuarm:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
+    branch: master
     path: layers/meta-rauc
   poky:
     url: "https://git.yoctoproject.org/git/poky"

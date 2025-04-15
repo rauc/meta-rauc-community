@@ -36,7 +36,10 @@ migratability between different layer revision.
 I. Adding the meta-rauc-raspberrypi layer to your build
 =======================================================
 
-Run 'bitbake-layers add-layer meta-rauc-raspberrypi'
+Add meta-rauc-community and meta-rauc-raspberrypi::
+
+   bitbake-layers add-layer meta-rauc-community
+   bitbake-layers add-layer meta-rauc-raspberrypi
 
 II. Build The Demo System
 =========================

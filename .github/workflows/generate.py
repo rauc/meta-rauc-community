@@ -60,25 +60,24 @@ jobs:
 """.lstrip()
 
 template = Template(
-        TEMPLATE,
-        block_start_string='«%',
-        block_end_string='%»',
-        variable_start_string='««',
-        variable_end_string='»»',
-        comment_start_string='«#',
-        comment_end_string='#»',
-        trim_blocks=True,
-        lstrip_blocks=True,
-        keep_trailing_newline=True,
-        )
+    TEMPLATE,
+    block_start_string="«%",
+    block_end_string="%»",
+    variable_start_string="««",
+    variable_end_string="»»",
+    comment_start_string="«#",
+    comment_end_string="#»",
+    trim_blocks=True,
+    lstrip_blocks=True,
+    keep_trailing_newline=True,
+)
 
 default_context = {
     "base_layers": {
         "poky": "git://git.yoctoproject.org/poky",
-        "meta-rauc": "https://github.com/rauc/meta-rauc.git"
+        "meta-rauc": "https://github.com/rauc/meta-rauc.git",
     },
-    "extra_layers": {
-    },
+    "extra_layers": {},
     "machine": None,
     "conf": [],
 }

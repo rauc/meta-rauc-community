@@ -7,11 +7,13 @@ on:
     branches:
       - master
     paths:
+      - '.github/workflows/meta-rauc-raspberrypi.yml'
       - 'meta-rauc-raspberrypi/**'
   pull_request:
     branches:
       - master
     paths:
+      - '.github/workflows/meta-rauc-raspberrypi.yml'
       - 'meta-rauc-raspberrypi/**'
 jobs:
   build:

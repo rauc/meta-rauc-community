@@ -7,11 +7,13 @@ on:
     branches:
       - master
     paths:
+      - '.github/workflows/meta-rauc-qemux86.yml'
       - 'meta-rauc-qemux86/**'
   pull_request:
     branches:
       - master
     paths:
+      - '.github/workflows/meta-rauc-qemux86.yml'
       - 'meta-rauc-qemux86/**'
 jobs:
   build:

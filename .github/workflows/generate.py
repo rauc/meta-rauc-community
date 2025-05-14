@@ -12,11 +12,13 @@ on:
     branches:
       - master
     paths:
+      - '.github/workflows/«« layer »».yml'
       - '«« layer »»/**'
   pull_request:
     branches:
       - master
     paths:
+      - '.github/workflows/«« layer »».yml'
       - '«« layer »»/**'
 jobs:
   build:

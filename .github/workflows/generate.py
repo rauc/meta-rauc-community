@@ -63,9 +63,7 @@ jobs:
             echo 'INHERIT += "rm_work"' >> conf/auto.conf
           fi
           echo 'DISTRO_FEATURES:remove = "alsa bluetooth usbgadget usbhost wifi nfs zeroconf pci 3g nfc x11 opengl ptest wayland vulkan"' >> conf/local.conf
-          «% if machine %»
           echo 'MACHINE = "«« machine »»"' >> conf/local.conf
-          «% endif %»
           echo 'DISTRO_FEATURES:append = " rauc"' >> conf/local.conf
           echo 'IMAGE_INSTALL:append = " rauc"' >> conf/local.conf
           echo 'IMAGE_FSTYPES = "«« fstypes »»"' >> conf/local.conf
@@ -81,6 +79,41 @@ jobs:
         run: |
           source poky/oe-init-build-env build
           bitbake -p
+      - name: Build rauc, rauc-native
+        run: |
+          source poky/oe-init-build-env build
+          bitbake rauc rauc-native
+      - name: Build «« image »»
+        run: |
+          source poky/oe-init-build-env build
+          bitbake «« image »»
+      - name: Build RAUC Bundle
+        run: |
+          source poky/oe-init-build-env build
+          bitbake «« bundle »»
+      - name: Cache Data
+        env:
+          CACHE_KEY: ${{ secrets.YOCTO_CACHE_KEY }}
+        if: ${{ !cancelled() && env.CACHE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$CACHE_KEY" >> ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          rsync -rvx --ignore-existing build/downloads rauc-community-cache: || true
+          rsync -rvx --ignore-existing build/sstate-cache rauc-community-cache: || true
+      - name: Show Artifacts
+        run: |
+          source poky/oe-init-build-env build
+          tree --du -h tmp/deploy/images || true
+      «% if artifacts %»
+      - name: Upload Artifacts
+        uses: jluebbe/forrest-upload-artifact@summary
+        with:
+          path: |
+            «% for artifact in artifacts %»
+            build/tmp/deploy/images/«« machine »»/«« artifact »»
+            «% endfor %»
+      «% endif %»
 """.lstrip()
 
 template = Template(
@@ -114,19 +147,31 @@ default_context = {
     },
     "extra_layers": {},
     "add_layers": [],
-    "machine": None,
     "conf": [],
+    "image": "core-image-minimal",
+    "bundle": "update-bundle",
+    "artifacts": [],
 }
 
 contexts = [
     {
         "layer": "meta-rauc-qemux86",
         **default_context,
-        "fstypes": "tar.bz2 wic",
+        "machine": "qemux86-64",
+        "fstypes": "tar.bz2 wic.zst",
         "wks_file": "qemux86-grub-efi.wks",
         "conf": [
             'EXTRA_IMAGEDEPENDS += "ovmf"',
             'PREFERRED_RPROVIDER_virtual-grub-bootconf = "rauc-qemu-grubconf"',
+        ],
+        "bundle": "qemu-demo-bundle",
+        "artifacts": [
+            "core-image-minimal-qemux86-64.rootfs.manifest",
+            "core-image-minimal-qemux86-64.rootfs.qemuboot.conf",
+            "core-image-minimal-qemux86-64.rootfs.spdx.json",
+            "core-image-minimal-qemux86-64.rootfs.testdata.json",
+            "core-image-minimal-qemux86-64.rootfs.wic.zst",
+            "qemu-demo-bundle-qemux86-64.raucb",
         ],
     },
     {
@@ -139,8 +184,15 @@ contexts = [
             },
         },
         "machine": "raspberrypi4",
-        "fstypes": "ext4",
+        "fstypes": "ext4 wic.zst",
         "wks_file": "sdimage-dual-raspberrypi.wks.in",
+        "artifacts": [
+            "core-image-minimal-raspberrypi4.rootfs.manifest",
+            "core-image-minimal-raspberrypi4.rootfs.spdx.json",
+            "core-image-minimal-raspberrypi4.rootfs.testdata.json",
+            "core-image-minimal-raspberrypi4.rootfs.wic.zst",
+            "update-bundle-raspberrypi4.raucb",
+        ],
     },
 ]
 

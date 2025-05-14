@@ -62,7 +62,7 @@ jobs:
           echo 'MACHINE = "raspberrypi4"' >> conf/local.conf
           echo 'DISTRO_FEATURES:append = " rauc"' >> conf/local.conf
           echo 'IMAGE_INSTALL:append = " rauc"' >> conf/local.conf
-          echo 'IMAGE_FSTYPES = "ext4"' >> conf/local.conf
+          echo 'IMAGE_FSTYPES = "ext4 wic.zst"' >> conf/local.conf
           echo 'WKS_FILE = "sdimage-dual-raspberrypi.wks.in"' >> conf/local.conf
       - name: Show configuration files
         run: |
@@ -72,3 +72,38 @@ jobs:
         run: |
           source poky/oe-init-build-env build
           bitbake -p
+      - name: Build rauc, rauc-native
+        run: |
+          source poky/oe-init-build-env build
+          bitbake rauc rauc-native
+      - name: Build core-image-minimal
+        run: |
+          source poky/oe-init-build-env build
+          bitbake core-image-minimal
+      - name: Build RAUC Bundle
+        run: |
+          source poky/oe-init-build-env build
+          bitbake update-bundle
+      - name: Cache Data
+        env:
+          CACHE_KEY: ${{ secrets.YOCTO_CACHE_KEY }}
+        if: ${{ !cancelled() && env.CACHE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$CACHE_KEY" >> ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          rsync -rvx --ignore-existing build/downloads rauc-community-cache: || true
+          rsync -rvx --ignore-existing build/sstate-cache rauc-community-cache: || true
+      - name: Show Artifacts
+        run: |
+          source poky/oe-init-build-env build
+          tree --du -h tmp/deploy/images || true
+      - name: Upload Artifacts
+        uses: jluebbe/forrest-upload-artifact@summary
+        with:
+          path: |
+            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.manifest
+            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.spdx.json
+            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.testdata.json
+            build/tmp/deploy/images/raspberrypi4/core-image-minimal-raspberrypi4.rootfs.wic.zst
+            build/tmp/deploy/images/raspberrypi4/update-bundle-raspberrypi4.raucb

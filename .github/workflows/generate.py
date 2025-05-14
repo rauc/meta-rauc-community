@@ -32,7 +32,7 @@ jobs:
         run: |
           sudo apt-get install diffstat
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       «% for name, url in base_layers.items()|list + extra_layers.items()|list %»
       - name: Clone «« name »»
         run: git clone -b master «« url »»

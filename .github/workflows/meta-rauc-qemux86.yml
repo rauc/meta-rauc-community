@@ -27,7 +27,7 @@ jobs:
         run: |
           sudo apt-get install diffstat chrpath
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Clone poky
         run: git clone -b master git://git.yoctoproject.org/poky
       - name: Clone meta-rauc

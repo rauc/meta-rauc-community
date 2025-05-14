@@ -20,6 +20,9 @@ on:
     paths:
       - '.github/workflows/«« layer »».yml'
       - '«« layer »»/**'
+  # allow rebuilding without a push
+  workflow_dispatch: {}
+
 jobs:
   build:
     name: «« layer »» Build

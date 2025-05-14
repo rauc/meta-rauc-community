@@ -15,6 +15,9 @@ on:
     paths:
       - '.github/workflows/meta-rauc-raspberrypi.yml'
       - 'meta-rauc-raspberrypi/**'
+  # allow rebuilding without a push
+  workflow_dispatch: {}
+
 jobs:
   build:
     name: meta-rauc-raspberrypi Build

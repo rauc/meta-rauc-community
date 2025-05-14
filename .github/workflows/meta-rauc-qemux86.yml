@@ -56,9 +56,10 @@ jobs:
             echo 'INHERIT += "rm_work"' >> conf/auto.conf
           fi
           echo 'DISTRO_FEATURES:remove = "alsa bluetooth usbgadget usbhost wifi nfs zeroconf pci 3g nfc x11 opengl ptest wayland vulkan"' >> conf/local.conf
+          echo 'MACHINE = "qemux86-64"' >> conf/local.conf
           echo 'DISTRO_FEATURES:append = " rauc"' >> conf/local.conf
           echo 'IMAGE_INSTALL:append = " rauc"' >> conf/local.conf
-          echo 'IMAGE_FSTYPES = "tar.bz2 wic"' >> conf/local.conf
+          echo 'IMAGE_FSTYPES = "tar.bz2 wic.zst"' >> conf/local.conf
           echo 'WKS_FILE = "qemux86-grub-efi.wks"' >> conf/local.conf
           echo 'EXTRA_IMAGEDEPENDS += "ovmf"' >> conf/local.conf
           echo 'PREFERRED_RPROVIDER_virtual-grub-bootconf = "rauc-qemu-grubconf"' >> conf/local.conf
@@ -70,3 +71,39 @@ jobs:
         run: |
           source poky/oe-init-build-env build
           bitbake -p
+      - name: Build rauc, rauc-native
+        run: |
+          source poky/oe-init-build-env build
+          bitbake rauc rauc-native
+      - name: Build core-image-minimal
+        run: |
+          source poky/oe-init-build-env build
+          bitbake core-image-minimal
+      - name: Build RAUC Bundle
+        run: |
+          source poky/oe-init-build-env build
+          bitbake qemu-demo-bundle
+      - name: Cache Data
+        env:
+          CACHE_KEY: ${{ secrets.YOCTO_CACHE_KEY }}
+        if: ${{ !cancelled() && env.CACHE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$CACHE_KEY" >> ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          rsync -rvx --ignore-existing build/downloads rauc-community-cache: || true
+          rsync -rvx --ignore-existing build/sstate-cache rauc-community-cache: || true
+      - name: Show Artifacts
+        run: |
+          source poky/oe-init-build-env build
+          tree --du -h tmp/deploy/images || true
+      - name: Upload Artifacts
+        uses: jluebbe/forrest-upload-artifact@summary
+        with:
+          path: |
+            build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.manifest
+            build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.qemuboot.conf
+            build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.spdx.json
+            build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.testdata.json
+            build/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.rootfs.wic.zst
+            build/tmp/deploy/images/qemux86-64/qemu-demo-bundle-qemux86-64.raucb

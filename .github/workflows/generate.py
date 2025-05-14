@@ -21,11 +21,11 @@ on:
 jobs:
   build:
     name: «« layer »» Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Install required packages
         run: |
-          sudo apt-get install diffstat
+          sudo apt-get install diffstat chrpath
       - name: Checkout
         uses: actions/checkout@v3
       «% for name, url in base_layers.items()|list + extra_layers.items()|list %»

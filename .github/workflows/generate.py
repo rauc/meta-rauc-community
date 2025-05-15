@@ -102,9 +102,10 @@ jobs:
           rsync -rvx --ignore-existing build/downloads rauc-community-cache: || true
           rsync -rvx --ignore-existing build/sstate-cache rauc-community-cache: || true
       - name: Show Artifacts
+        if: ${{ !cancelled() }}
         run: |
-          source poky/oe-init-build-env build
-          tree --du -h tmp/deploy/images || true
+          cd build/tmp/deploy/images
+          tree --du -h || true
       «% if artifacts %»
       - name: Upload Artifacts
         uses: jluebbe/forrest-upload-artifact@summary

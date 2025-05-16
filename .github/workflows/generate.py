@@ -156,6 +156,32 @@ default_context = {
 
 contexts = [
     {
+        "layer": "meta-rauc-beaglebone",
+        **default_context,
+        "machine": "beaglebone-yocto",
+        "fstypes": "ext4 wic.zst",
+        "wks_file": "beaglebone-yocto-dual.wks.in",
+        "conf": [
+            'IMAGE_BOOT_FILES:append = " boot.scr"',
+        ],
+        "artifacts": [
+            "core-image-minimal-beaglebone-yocto.rootfs.wic.xz",
+            "core-image-minimal-beaglebone-yocto.rootfs.spdx.tar.zst",
+            "update-bundle-beaglebone-yocto.raucb",
+        ],
+    },
+    {
+        "layer": "meta-rauc-qemuarm",
+        **default_context,
+        "machine": "qemuarm",
+        "fstypes": "wic.zst",
+        "wks_file": "rauc-qemuarm.wks",
+        "bundle": "update-bundle",
+        "artifacts": [
+            "core-image-minimal-qemuarm-64.rootfs.wic.zst",
+        ],
+    },
+    {
         "layer": "meta-rauc-qemux86",
         **default_context,
         "machine": "qemux86-64",

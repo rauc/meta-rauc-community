@@ -102,9 +102,10 @@ jobs:
           rsync -rvx --ignore-existing build/downloads rauc-community-cache: || true
           rsync -rvx --ignore-existing build/sstate-cache rauc-community-cache: || true
       - name: Show Artifacts
+        if: ${{ !cancelled() }}
         run: |
-          source poky/oe-init-build-env build
-          tree --du -h tmp/deploy/images || true
+          cd build/tmp/deploy/images
+          tree --du -h || true
       «% if artifacts %»
       - name: Upload Artifacts
         uses: jluebbe/forrest-upload-artifact@summary
@@ -154,6 +155,32 @@ default_context = {
 }
 
 contexts = [
+    {
+        "layer": "meta-rauc-beaglebone",
+        **default_context,
+        "machine": "beaglebone-yocto",
+        "fstypes": "ext4 wic.zst",
+        "wks_file": "beaglebone-yocto-dual.wks.in",
+        "conf": [
+            'IMAGE_BOOT_FILES:append = " boot.scr"',
+        ],
+        "artifacts": [
+            "core-image-minimal-beaglebone-yocto.rootfs.wic.xz",
+            "core-image-minimal-beaglebone-yocto.rootfs.spdx.tar.zst",
+            "update-bundle-beaglebone-yocto.raucb",
+        ],
+    },
+    {
+        "layer": "meta-rauc-qemuarm",
+        **default_context,
+        "machine": "qemuarm",
+        "fstypes": "wic.zst",
+        "wks_file": "rauc-qemuarm.wks",
+        "bundle": "update-bundle",
+        "artifacts": [
+            "core-image-minimal-qemuarm-64.rootfs.wic.zst",
+        ],
+    },
     {
         "layer": "meta-rauc-qemux86",
         **default_context,

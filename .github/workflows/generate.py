@@ -102,9 +102,10 @@ jobs:
           rsync -rvx --ignore-existing build/downloads rauc-community-cache: || true
           rsync -rvx --ignore-existing build/sstate-cache rauc-community-cache: || true
       - name: Show Artifacts
+        if: ${{ !cancelled() }}
         run: |
-          source poky/oe-init-build-env build
-          tree --du -h tmp/deploy/images || true
+          cd build/tmp/deploy/images
+          tree --du -h || true
       «% if artifacts %»
       - name: Upload Artifacts
         uses: jluebbe/forrest-upload-artifact@summary
@@ -155,6 +156,32 @@ default_context = {
 
 contexts = [
     {
+        "layer": "meta-rauc-beaglebone",
+        **default_context,
+        "machine": "beaglebone-yocto",
+        "fstypes": "ext4 wic.zst",
+        "wks_file": "beaglebone-yocto-dual.wks.in",
+        "conf": [
+            'IMAGE_BOOT_FILES:append = " boot.scr"',
+        ],
+        "artifacts": [
+            "core-image-minimal-beaglebone-yocto.rootfs.wic.xz",
+            "core-image-minimal-beaglebone-yocto.rootfs.spdx.tar.zst",
+            "update-bundle-beaglebone-yocto.raucb",
+        ],
+    },
+    {
+        "layer": "meta-rauc-qemuarm",
+        **default_context,
+        "machine": "qemuarm",
+        "fstypes": "wic.zst",
+        "wks_file": "rauc-qemuarm.wks",
+        "bundle": "update-bundle",
+        "artifacts": [
+            "core-image-minimal-qemuarm-64.rootfs.wic.zst",
+        ],
+    },
+    {
         "layer": "meta-rauc-qemux86",
         **default_context,
         "machine": "qemux86-64",
@@ -192,6 +219,39 @@ contexts = [
             "core-image-minimal-raspberrypi4.rootfs.testdata.json",
             "core-image-minimal-raspberrypi4.rootfs.wic.zst",
             "update-bundle-raspberrypi4.raucb",
+        ],
+    },
+    {
+        "layer": "meta-rauc-sunxi",
+        **default_context,
+        "layers": {
+            **default_layers,
+            "meta-arm": {
+                "repo": "https://git.yoctoproject.org/meta-arm.git",
+                "add": ["meta-arm-toolchain", "meta-arm"],
+            },
+            "meta-openembedded": {
+                "repo": "https://git.openembedded.org/meta-openembedded.git",
+                "add": ["meta-oe", "meta-python"],
+            },
+            "meta-sunxi": {
+                "repo": "https://github.com/linux-sunxi/meta-sunxi.git",
+            },
+        },
+        "machine": "olinuxino-a10lime",
+        "fstypes": "ext4 wic.zst",
+        "wks_file": "sunxi-dual-image.wks.in",
+        "conf": [
+            'INIT_MANAGER = "systemd"',
+            'IMAGE_BOOT_FILES:append = " boot.scr"',
+            'IMAGE_INSTALL:append = " rauc-grow-data-part"',
+        ],
+        "artifacts": [
+            "core-image-minimal-olinuxino-a10lime.rootfs.manifest",
+            "core-image-minimal-olinuxino-a10lime.rootfs.spdx.json",
+            "core-image-minimal-olinuxino-a10lime.rootfs.testdata.json",
+            "core-image-minimal-olinuxino-a10lime.rootfs.wic.zst",
+            "update-bundle-olinuxino-a10lime.raucb",
         ],
     },
 ]

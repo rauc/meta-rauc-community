@@ -221,6 +221,39 @@ contexts = [
             "update-bundle-raspberrypi4.raucb",
         ],
     },
+    {
+        "layer": "meta-rauc-sunxi",
+        **default_context,
+        "layers": {
+            **default_layers,
+            "meta-arm": {
+                "repo": "https://git.yoctoproject.org/meta-arm.git",
+                "add": ["meta-arm-toolchain", "meta-arm"],
+            },
+            "meta-openembedded": {
+                "repo": "https://git.openembedded.org/meta-openembedded.git",
+                "add": ["meta-oe", "meta-python"],
+            },
+            "meta-sunxi": {
+                "repo": "https://github.com/linux-sunxi/meta-sunxi.git",
+            },
+        },
+        "machine": "olinuxino-a10lime",
+        "fstypes": "ext4 wic.zst",
+        "wks_file": "sunxi-dual-image.wks.in",
+        "conf": [
+            'INIT_MANAGER = "systemd"',
+            'IMAGE_BOOT_FILES:append = " boot.scr"',
+            'IMAGE_INSTALL:append = " rauc-grow-data-part"',
+        ],
+        "artifacts": [
+            "core-image-minimal-olinuxino-a10lime.rootfs.manifest",
+            "core-image-minimal-olinuxino-a10lime.rootfs.spdx.json",
+            "core-image-minimal-olinuxino-a10lime.rootfs.testdata.json",
+            "core-image-minimal-olinuxino-a10lime.rootfs.wic.zst",
+            "update-bundle-olinuxino-a10lime.raucb",
+        ],
+    },
 ]
 
 for context in contexts:

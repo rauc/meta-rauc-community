@@ -1,4 +1,6 @@
-part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --size 100
+part /autoboot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/autoboot --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --size 10
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label kernel_A --align 4096 --size 100
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label kernel_B --align 4096 --size 100
 part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_A --align 4096
 part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_B --align 4096
 part /data --fixed-size 100M --ondisk mmcblk0 --fstype=ext4 --label data --align 4096

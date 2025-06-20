@@ -8,6 +8,10 @@ RAUC_BUNDLE_DESCRIPTION = "RAUC Demo Bundle"
 
 RAUC_BUNDLE_FORMAT = "verity"
 
-RAUC_BUNDLE_SLOTS = "rootfs"
+RAUC_BUNDLE_SLOTS = "firmware rootfs"
+
+RAUC_SLOT_firmware = "core-image-minimal"
+RAUC_SLOT_firmware[fstype] = "ext4"
+
 RAUC_SLOT_rootfs = "core-image-minimal"
 RAUC_SLOT_rootfs[fstype] = "ext4"

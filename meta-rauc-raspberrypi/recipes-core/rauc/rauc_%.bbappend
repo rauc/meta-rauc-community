@@ -4,7 +4,8 @@ SRC_URI:append := "  \
 "
 
 # additional dependencies required to run RAUC on the target
-RDEPENDS:${PN} += "u-boot-fw-utils u-boot-env"
+#RDEPENDS:${PN} += "u-boot-fw-utils u-boot-env"
+RDEPENDS:${PN} += "raspi-utils"
 
 inherit systemd
 

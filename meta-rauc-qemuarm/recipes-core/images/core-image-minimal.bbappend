@@ -5,7 +5,7 @@ IMAGE_INSTALL:append = " \
     u-boot-fw-utils \
     u-boot-default-env \
     kernel-image \
-    kernel-devicetree \
+    devicetree-qemuarm \
     rauc \
     e2fsprogs-mke2fs \
     mtd-utils \

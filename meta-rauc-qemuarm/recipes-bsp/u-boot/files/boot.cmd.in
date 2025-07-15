@@ -42,7 +42,7 @@ if test "x${rauc_slot}" = "x"; then
 fi
 
 echo "=== Loading device tree from p${rootfs_partition} to ${fdt_addr} ==="
-ext4load virtio ${virtio_device_num}:${rootfs_partition} ${fdt_addr} /boot/@@KERNEL_DEVICETREE@@
+ext4load virtio ${virtio_device_num}:${rootfs_partition} ${fdt_addr} /boot/devicetree/@@DEVICETREE_NAME@@
 
 echo "=== Loading kernel image from p${rootfs_partition} to ${kernel_addr_r} ==="
 ext4load virtio ${virtio_device_num}:${rootfs_partition} ${kernel_addr_r} /boot/@@KERNEL_IMAGETYPE@@

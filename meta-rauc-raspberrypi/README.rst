@@ -64,8 +64,10 @@ Add configuration required for meta-rauc-raspberrypi to your local.conf::
    IMAGE_INSTALL:append = " rauc"
    IMAGE_INSTALL:append = " rpi-eeprom"
    IMAGE_INSTALL:append = " rpi-autoboot"
+   IMAGE_FSTYPES:remove = " ext3"
    IMAGE_FSTYPES:append = " ext4"
    WKS_FILE = "sdimage-dual-raspberrypi.wks.in"
+   WIC_CREATE_EXTRA_ARGS = " --no-fstab-update"
 
 Make sure either your distro (recommended) or your local.conf have ``rauc``
 ``DISTRO_FEATURE`` enabled::

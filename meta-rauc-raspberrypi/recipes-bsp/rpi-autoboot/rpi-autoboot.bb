@@ -4,9 +4,6 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 
 SRC_URI = "file://autoboot.txt"
 
-S = "${WORKDIR}/sources"
-UNPACKDIR = "${S}"
-
 do_install () {
     install -d ${D}/autoboot
     install -m 0644 ${UNPACKDIR}/autoboot.txt ${D}/autoboot/autoboot.txt

@@ -1,3 +1,9 @@
+# hack... hack...
+# to get the new "bootloader=raspberrypi"
+SRC_URI = "git://github.com/Rtone/rauc.git;protocol=https;branch=bootchooser-add-raspberrypi-firmware-initial-support"
+SRCREV = "fdc22a44866b59eaee8fe830655c16a557b63f79"
+LIC_FILES_CHKSUM = "file://COPYING;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
+
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 SRC_URI:append := "  \
 	file://rauc-grow-data-partition.service \

@@ -16,6 +16,6 @@ RAUC_SLOT_firmware[fstype] = "ext4"
 RAUC_SLOT_firmware[rename] = "firmware.vfat"
 
 RAUC_SLOT_rootfs = "core-image-minimal"
-RAUC_SLOT_rootfs[file] = "core-image-minimal-${MACHINE}.rootfs-p5.img"
+RAUC_SLOT_rootfs[file] = "core-image-minimal-${MACHINE}.rootfs.ext4"
 RAUC_SLOT_rootfs[fstype] = "ext4"
 RAUC_SLOT_rootfs[rename] = "rootfs.ext4"

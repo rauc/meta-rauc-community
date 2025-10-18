@@ -1,7 +1,17 @@
-part /autoboot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/autoboot --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --size 10
-part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label kernel_A --align 4096 --size 100
-part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label kernel_B --align 4096 --size 100
-part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_A --align 4096
-part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_B --align 4096
+# short-description: Create Raspberry Pi SD card image
+# long-description: Creates a partitioned SD card image for use with
+#
+# Raspberry Pi:
+# /autoboot [boot]: A/B selector for the raspberry pi firmware
+# /boot [kernel_A, kernel_B]: Boot files are located in the first vfat partition.
+# / [rootfs_A, rootfs_B]: RootFS is located in the second ext4 partition.
+# /data [data]: common partition for RAUC state etc
+# /home [homefs]: common partition for the user home directory, set to fill the available space on the emmc
+
+part /autoboot --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/autoboot --ondisk mmcblk0 --fstype=vfat --label boot --active --align 4096 --fixed-size 10
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label kernel_A --align 4096 --fixed-size 100
+part /boot --source bootimg-partition --ondisk mmcblk0 --fstype=vfat --label kernel_B --align 4096 --fixed-size 100
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_A --align 4096 --fixed-size 3584
+part / --source rootfs --ondisk mmcblk0 --fstype=ext4 --label rootfs_B --align 4096 --fixed-size 3584
 part /data --fixed-size 100M --ondisk mmcblk0 --fstype=ext4 --label data --align 4096
 part /home --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/home --ondisk mmcblk0 --fstype=ext4 --label homefs --align 1024 --size 500 --fsoptions "x-systemd.growfs"

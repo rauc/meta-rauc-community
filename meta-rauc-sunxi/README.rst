@@ -98,7 +98,7 @@ III. Flash & Run the Demo System
 ================================
 
 Before flashing it's recommended to make sure that any traces
-of u-boot environment that may have been left from prevous use
+of u-boot environment that may have been left from previous use
 of the SD card are erased::
 
     $ dd if=/dev/zero of=/dev/sdX count=10000

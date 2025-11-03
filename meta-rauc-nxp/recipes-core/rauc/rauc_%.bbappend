@@ -5,7 +5,7 @@ SRC_URI:append := "  \
 	file://grow-data-partition.sh \
 "
 
-RDEPENDS:${PN} += "u-boot-fw-utils u-boot-imx-env"
+RDEPENDS:${PN} += "u-boot-fw-utils ${IMX_DEFAULT_BOOTLOADER}-env"
 DEPENDS += "u-boot"
 
 inherit systemd

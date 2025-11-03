@@ -5,12 +5,13 @@
 # It uses u-boot + other binaries gathered together on imx-boot file
 #
 # The disk layout used is:
-#  - ---------- -------------- --------------
-# | | imx-boot |     boot     |    rootfs    |
-#  - ---------- -------------- --------------
-# ^ ^          ^              ^              ^
-# | |          |              |              |
-# 0 |        8MiB          72MiB          72MiB + rootfs + IMAGE_EXTRA_SPACE (default 10MiB)
+#  - ---------- -------------- ---------------- ---------------- ------------
+# | | imx-boot |     boot     |    rootfs A    |    rootfs B    |    data    |
+#  - ---------- -------------- ---------------- ---------------- ------------
+# ^ ^          ^              ^                ^                ^
+# | |          |              |                |                |
+# 0 |        8MiB          72MiB            72MiB + rootfs + IMAGE_EXTRA_SPACE (default 10MiB)
+#   |                                                        72MiB + 2 * (rootfs + IMAGE_EXTRA_SPACE (default 10MiB))
 #   ${IMX_BOOT_SEEK} 32 or 33kiB, see reference manual
 #
 part u-boot --source rawcopy --sourceparams="file=imx-boot" --ondisk mmcblk --no-table --align ${IMX_BOOT_SEEK}

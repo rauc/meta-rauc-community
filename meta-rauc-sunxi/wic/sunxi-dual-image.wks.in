@@ -4,13 +4,14 @@
 # with Allwinner arm (32-bit) SoC family
 #
 # The disk layout used is:
-#  - --------------------------- -------------- --------------
-# | | u-boot-sunxi-with-spl.bin |     boot     |    rootfs    |
-#  - --------------------------- -------------- --------------
-# ^ ^                           ^              ^              ^
-# | |                           |              |              |
+#  - --------------------------- -------------- ---------------- ---------------- ------------
+# | | u-boot-sunxi-with-spl.bin |     boot     |    rootfs A    |    rootfs B    |    data    |
+#  - --------------------------- -------------- ---------------- ---------------- ------------
+# ^ ^                           ^              ^                ^                ^
+# | |                           |              |                |                |
 # 0 |                         2MiB  ${SUNXI_BOOT_SPACE}MiB  ${SUNXI_BOOT_SPACE}MiB + rootfs + IMAGE_EXTRA_SPACE
-#   8KiB 
+#   8KiB                                                                         |
+#                                                                            ${SUNXI_BOOT_SPACE}MiB + 2 * (rootfs + IMAGE_EXTRA_SPACE)
 #
 
 part u-boot --source rawcopy --sourceparams="file=${SPL_BINARY}" --ondisk mmcblk0 --no-table --align 8

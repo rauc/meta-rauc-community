@@ -6,8 +6,8 @@ Dependencies
 ============
 
 * URI: git://git.openembedded.org/openembedded-core
+* URI: https://git.yoctoproject.org/meta-yocto
 * URI: https://github.com/rauc/meta-rauc.git
-* URI: https://git.yoctoproject.org/poky/
 
 Patches
 =======

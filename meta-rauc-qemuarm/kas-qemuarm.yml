@@ -14,7 +14,6 @@ repos:
       meta-rauc-qemuarm:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
-    branch: master
     path: layers/meta-rauc
   poky:
     url: "https://git.yoctoproject.org/git/poky"

@@ -2,11 +2,11 @@ header:
   version: 14
 
 machine: qemuarm64
-distro: poky
+distro: nodistro
 
 defaults:
   repos:
-    branch: walnascar
+    branch: master
 
 repos:
   meta-rauc-community:
@@ -16,13 +16,17 @@ repos:
     url: "https://github.com/rauc/meta-rauc.git"
     branch: master
     path: layers/meta-rauc
-  poky:
-    url: "https://git.yoctoproject.org/git/poky"
-    path: layers/poky
+  bitbake:
+    url: "https://github.com/openembedded/bitbake.git"
+    path: layers/bitbake
+    # this repo does not provide any layers
+    layers:
+      .: disabled
+  openembedded-core:
+    url: "https://github.com/openembedded/openembedded-core.git"
+    path: layers/openembedded-core
     layers:
       meta:
-      meta-poky:
-      meta-yocto-bsp:
 
 target:
   - core-image-minimal

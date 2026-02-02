@@ -41,13 +41,15 @@ jobs:
           sudo apt-get -q -y --no-install-recommends install diffstat tree chrpath
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Clone bitbake
+        run: git clone --shared --reference-if-able /srv/shared-git/bitbake.git -b master https://github.com/openembedded/bitbake.git
       «% for layer_name, layer_info in layers.items() %»
       - name: Clone «« layer_name »»
         run: git clone --shared --reference-if-able /srv/shared-git/«« layer_name »».git -b «« layer_info["branch"] | default(release) »» «« layer_info["repo"] »»
       «% endfor %»
       - name: Initialize build directory
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           «% for layer_path in add_layers %»
           bitbake-layers add-layer ../«« layer_path »»
           «% endfor %»
@@ -77,19 +79,19 @@ jobs:
           rgrep . *.conf
       - name: Test bitbake parsing
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake -p
       - name: Build rauc, rauc-native
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake rauc rauc-native
       - name: Build «« image »»
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake «« image »»
       - name: Build RAUC Bundle
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake «« bundle »»
       - name: Cache Data
         env:
@@ -131,8 +133,8 @@ template = Template(
 )
 
 default_layers = {
-    "poky": {
-        "repo": "https://github.com/yoctoproject/poky.git",
+    "openembedded-core": {
+        "repo": "https://github.com/openembedded/openembedded-core.git",
         # added by default
         "add": [],
     },
@@ -158,6 +160,13 @@ contexts = [
     {
         "layer": "meta-rauc-beaglebone",
         **default_context,
+        "layers": {
+            **default_layers,
+            "meta-yocto": {
+                "repo": "https://git.yoctoproject.org/meta-yocto",
+                "add": ["meta-yocto-bsp"],
+            },
+        },
         "machine": "beaglebone-yocto",
         "fstypes": "ext4 wic.zst",
         "wks_file": "beaglebone-yocto-dual.wks.in",

@@ -36,8 +36,10 @@ jobs:
           sudo apt-get -q -y --no-install-recommends install diffstat tree chrpath
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Clone poky
-        run: git clone --shared --reference-if-able /srv/shared-git/poky.git -b master https://github.com/yoctoproject/poky.git
+      - name: Clone bitbake
+        run: git clone --shared --reference-if-able /srv/shared-git/bitbake.git -b master https://github.com/openembedded/bitbake.git
+      - name: Clone openembedded-core
+        run: git clone --shared --reference-if-able /srv/shared-git/openembedded-core.git -b master https://github.com/openembedded/openembedded-core.git
       - name: Clone meta-rauc
         run: git clone --shared --reference-if-able /srv/shared-git/meta-rauc.git -b master https://github.com/rauc/meta-rauc.git
       - name: Clone meta-arm
@@ -48,7 +50,7 @@ jobs:
         run: git clone --shared --reference-if-able /srv/shared-git/meta-sunxi.git -b master https://github.com/linux-sunxi/meta-sunxi.git
       - name: Initialize build directory
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake-layers add-layer ../meta-rauc
           bitbake-layers add-layer ../meta-arm/meta-arm-toolchain
           bitbake-layers add-layer ../meta-arm/meta-arm
@@ -81,19 +83,19 @@ jobs:
           rgrep . *.conf
       - name: Test bitbake parsing
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake -p
       - name: Build rauc, rauc-native
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake rauc rauc-native
       - name: Build core-image-minimal
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake core-image-minimal
       - name: Build RAUC Bundle
         run: |
-          source poky/oe-init-build-env build
+          source openembedded-core/oe-init-build-env build
           bitbake update-bundle
       - name: Cache Data
         env:

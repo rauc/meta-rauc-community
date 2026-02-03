@@ -1,4 +1,4 @@
-From 0d7284e52817c5138050ac12070369663064c1ea Mon Sep 17 00:00:00 2001
+From c16b55decca368fdcc1010b4df7e358a6b15ebe3 Mon Sep 17 00:00:00 2001
 From: Leon Anavi <leon.anavi@konsulko.com>
 Date: Mon, 19 Aug 2024 16:33:44 +0000
 Subject: [PATCH] configs/A20-OLinuXino_MICRO_defconfig: RAUC
@@ -15,7 +15,7 @@ Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/configs/A20-OLinuXino_MICRO_defconfig b/configs/A20-OLinuXino_MICRO_defconfig
-index 2d7532d9a2..2dc54ba399 100644
+index 2d7532d9a2f..2dc54ba3993 100644
 --- a/configs/A20-OLinuXino_MICRO_defconfig
 +++ b/configs/A20-OLinuXino_MICRO_defconfig
 @@ -21,8 +21,12 @@ CONFIG_MII=y
@@ -31,6 +31,3 @@ index 2d7532d9a2..2dc54ba399 100644
 +CONFIG_ENV_SIZE=0x20000
 +CONFIG_ENV_OFFSET=0x0000
 +CONFIG_ENV_IS_IN_FAT=y
--- 
-2.45.2
-

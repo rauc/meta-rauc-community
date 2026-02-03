@@ -1,4 +1,4 @@
-From f3204a8c856a676cd25e7f2ba2459d8013da8450 Mon Sep 17 00:00:00 2001
+From 74d034ba23aeba040be81f5d1d866324d1173dc1 Mon Sep 17 00:00:00 2001
 From: Leon Anavi <leon.anavi@konsulko.com>
 Date: Mon, 19 Aug 2024 12:58:40 +0000
 Subject: [PATCH] orangepi_one_defconfig: RAUC
@@ -15,7 +15,7 @@ Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/configs/orangepi_one_defconfig b/configs/orangepi_one_defconfig
-index 1064b4a39d..c11c151e10 100644
+index 1064b4a39de..c11c151e10e 100644
 --- a/configs/orangepi_one_defconfig
 +++ b/configs/orangepi_one_defconfig
 @@ -8,3 +8,6 @@ CONFIG_DRAM_CLK=672
@@ -25,6 +25,3 @@ index 1064b4a39d..c11c151e10 100644
 +CONFIG_ENV_SIZE=0x20000
 +CONFIG_ENV_OFFSET=0x0000
 +CONFIG_ENV_IS_IN_FAT=y
--- 
-2.45.2
-

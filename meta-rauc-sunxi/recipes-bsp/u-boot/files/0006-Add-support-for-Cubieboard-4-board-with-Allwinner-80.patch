@@ -1,4 +1,4 @@
-From 093b6d79694fde0656f97fe6eacf331d9109f028 Mon Sep 17 00:00:00 2001
+From 8c94971743f38d7cd8bac08c61d73cb988797b85 Mon Sep 17 00:00:00 2001
 From: lazarh <def_58@abv.bg>
 Date: Tue, 10 Dec 2024 16:56:05 +0000
 Subject: [PATCH] Add support for Cubieboard 4 board with Allwinner 80 SoC from
@@ -16,16 +16,13 @@ Signed-off-by: Lazar Hristov <lhristov@gmail.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/configs/Cubieboard4_defconfig b/configs/Cubieboard4_defconfig
-index d3678ad5c7..2a4accb372 100644
+index 33937abfb22..b72941c60c3 100644
 --- a/configs/Cubieboard4_defconfig
 +++ b/configs/Cubieboard4_defconfig
-@@ -13,3 +13,6 @@ CONFIG_AXP_GPIO=y
- CONFIG_SYS_I2C_SUN8I_RSB=y
+@@ -10,3 +10,6 @@ CONFIG_SYS_I2C_SUN8I_RSB=y
+ CONFIG_REGULATOR_AXP_DRIVEVBUS=y
  CONFIG_REGULATOR_AXP_USB_POWER=y
  CONFIG_AXP809_POWER=y
 +CONFIG_ENV_SIZE=0x20000
 +CONFIG_ENV_OFFSET=0x0000
 +CONFIG_ENV_IS_IN_FAT=y
--- 
-2.47.0
-

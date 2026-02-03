@@ -49,7 +49,6 @@ Add configuration required for meta-raspberrypi to your local.conf::
 
    # Generic raspberrypi settings
    ENABLE_UART = "1"
-   RPI_USE_U_BOOT = "1"
 
 Set the ``MACHINE`` to the model you intend to build for. E.g.::
 
@@ -63,8 +62,12 @@ Add configuration required for meta-rauc-raspberrypi to your local.conf::
 
    # Settings for meta-rauc-raspberry-pi
    IMAGE_INSTALL:append = " rauc"
+   IMAGE_INSTALL:append = " rpi-eeprom"
+   IMAGE_INSTALL:append = " rpi-autoboot"
+   IMAGE_FSTYPES:remove = " ext3"
    IMAGE_FSTYPES:append = " ext4"
    WKS_FILE = "sdimage-dual-raspberrypi.wks.in"
+   WIC_CREATE_EXTRA_ARGS = " --no-fstab-update"
 
 Make sure either your distro (recommended) or your local.conf have ``rauc``
 ``DISTRO_FEATURE`` enabled::

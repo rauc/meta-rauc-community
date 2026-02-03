@@ -1,27 +1,37 @@
 header:
   # We require kas config version 14
   version: 14
+
 machine: qemux86-64
-distro: poky
+distro: nodistro
+
+defaults:
+  repos:
+      branch: master
+
 repos:
   meta-rauc-community:
     layers:
       meta-rauc-qemux86:
   meta-rauc:
     url: "https://github.com/rauc/meta-rauc.git"
-    branch: master
     path: layers/meta-rauc
-  poky:
-    url: "https://git.yoctoproject.org/git/poky"
-    branch: master
-    path: layers/poky
+  bitbake:
+    url: "https://github.com/openembedded/bitbake.git"
+    path: layers/bitbake
+    # this repo does not provide any layers
+    layers:
+      .: disabled
+  openembedded-core:
+    url: "https://github.com/openembedded/openembedded-core.git"
+    path: layers/openembedded-core
     layers:
       meta:
-      meta-poky:
-      meta-yocto-bsp:
+
 target:
   - core-image-minimal
   - core-bundle-minimal
+
 local_conf_header:
   meta-custom: |
     DISTRO_FEATURES:append = " rauc"

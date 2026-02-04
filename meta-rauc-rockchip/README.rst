@@ -7,7 +7,6 @@ Dependencies
 
 * URI: git://git.openembedded.org/openembedded-core
 * URI: https://github.com/rauc/meta-rauc.git
-* URI: https://git.yoctoproject.org/poky/
 * URI: https://git.yoctoproject.org/meta-arm
 * URI: https://git.yoctoproject.org/meta-rockchip/
 

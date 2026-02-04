@@ -1,4 +1,4 @@
-From bb8df05b0463e1c0d58813380458a8c59ffad576 Mon Sep 17 00:00:00 2001
+From ebaa42fe09825f86e1eaa30fdf947a702a09ff84 Mon Sep 17 00:00:00 2001
 From: Leon Anavi <leon.anavi@konsulko.com>
 Date: Tue, 10 Dec 2024 10:00:20 +0000
 Subject: [PATCH] configs/Merrii_A80_Optimus_defconfig: RAUC
@@ -15,16 +15,13 @@ Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/configs/Merrii_A80_Optimus_defconfig b/configs/Merrii_A80_Optimus_defconfig
-index a26677e1c0..9c79d7aeab 100644
+index 1bfbeec1d02..c000d614b42 100644
 --- a/configs/Merrii_A80_Optimus_defconfig
 +++ b/configs/Merrii_A80_Optimus_defconfig
-@@ -13,3 +13,6 @@ CONFIG_AXP_GPIO=y
- CONFIG_SYS_I2C_SUN8I_RSB=y
+@@ -10,3 +10,6 @@ CONFIG_SYS_I2C_SUN8I_RSB=y
+ CONFIG_REGULATOR_AXP_DRIVEVBUS=y
  CONFIG_REGULATOR_AXP_USB_POWER=y
  CONFIG_AXP809_POWER=y
 +CONFIG_ENV_SIZE=0x20000
 +CONFIG_ENV_OFFSET=0x0000
 +CONFIG_ENV_IS_IN_FAT=y
--- 
-2.47.0
-

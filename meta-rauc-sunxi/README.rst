@@ -5,7 +5,7 @@ Please see the corresponding sections below for details.
 Dependencies
 ============
 
-  URI: https://git.yoctoproject.org/poky
+* URI: git://git.openembedded.org/openembedded-core
   branch: styhead
 
   URI: https://github.com/rauc/meta-rauc.git

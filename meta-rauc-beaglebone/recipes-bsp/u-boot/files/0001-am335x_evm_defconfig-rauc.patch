@@ -1,4 +1,4 @@
-From c87df6a895c5a2db70890127996fb3cacc94bca7 Mon Sep 17 00:00:00 2001
+From 6b9801ec2962ddc331381d5effb61698671db2ef Mon Sep 17 00:00:00 2001
 From: Leon Anavi <leon.anavi@konsulko.com>
 Date: Fri, 4 Apr 2025 10:13:49 +0000
 Subject: [PATCH] am335x_evm_defconfig: RAUC
@@ -11,7 +11,7 @@ Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/configs/am335x_evm_defconfig b/configs/am335x_evm_defconfig
-index 6d1da0cfc7c..c37a8cb91ba 100644
+index 2b68902edef..ff83faaae70 100644
 --- a/configs/am335x_evm_defconfig
 +++ b/configs/am335x_evm_defconfig
 @@ -17,7 +17,7 @@ CONFIG_FIT_VERBOSE=y
@@ -22,8 +22,8 @@ index 6d1da0cfc7c..c37a8cb91ba 100644
 +CONFIG_BOOTCOMMAND="load mmc 0:1 $loadaddr boot.scr; source $loadaddr"
  CONFIG_LOGLEVEL=3
  CONFIG_SYS_CONSOLE_INFO_QUIET=y
- CONFIG_ARCH_MISC_INIT=y
-@@ -45,7 +45,7 @@ CONFIG_CMD_SPL=y
+ CONFIG_SPL_SYS_MALLOC=y
+@@ -44,7 +44,7 @@ CONFIG_CMD_SPL=y
  CONFIG_CMD_SPL_NAND_OFS=0x00080000
  CONFIG_SYS_I2C_EEPROM_ADDR_LEN=2
  CONFIG_CMD_NAND=y
@@ -40,6 +40,3 @@ index 6d1da0cfc7c..c37a8cb91ba 100644
 +CONFIG_ENV_EXT4_DEVICE_AND_PART="0:1"
 +CONFIG_ENV_EXT4_FILE="/boot/uboot.env"
 +CONFIG_LEGACY_IMAGE_FORMAT=y
--- 
-2.49.0
-

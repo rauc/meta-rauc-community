@@ -28,6 +28,11 @@ a much different RAUC/bootloader/system configuration.
 Also note that this layer is for demo purpose only and does not care about
 migratability between different layer revision.
 
+Currently layer meta-rauc-beaglebone supports:
+
+- BeagleBone Black
+- PocketBeagle 2
+
 I. Adding the meta-rauc-beaglebone layer to your build
 =======================================================
 
@@ -63,18 +68,18 @@ It is also recommended, but not strictly necessary, to enable 'systemd'::
 
 Build the minimal system image::
 
-   $ bitbake core-image-minimal
+   $ bitbake core-image-base
 
 III. Flash & Run The Demo System
 ================================
 
 You can either flash using bmaptool (recommended)::
 
-  $ bmaptool copy /path/to/core-image-minimal-beaglebone-yocto.wic.xz /dev/sdX
+  $ bmaptool copy /path/to/core-image-base-beaglebone-yocto.wic.xz /dev/sdX
 
 or bzcat::
 
-  $ bzcat /path/to/core-image-minimal-beaglebone-yocto.wic.xz | dd of=/dev/sdb
+  $ bzcat /path/to/core-image-base-beaglebone-yocto.wic.xz | dd of=/dev/sdb
 
 Then power-on the board and log in.
 To see that RAUC is configured correctly and can interact with the bootloader,

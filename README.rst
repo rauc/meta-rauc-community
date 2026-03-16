@@ -16,6 +16,8 @@ differ in some aspects.
 
 Currently available meta layers are:
 
+* `meta-rauc-beaglebone <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-beaglebone>`_:
+  RAUC demo layer for BeagleBoard devices such BeagleBone Black and PocketBeagle 2 (meta-ti)
 * `meta-rauc-nxp <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-nxp>`_:
   RAUC demo layer for NXP hardware (meta-freescale)
 * `meta-rauc-qemuarm <https://github.com/rauc/meta-rauc-community/tree/master/meta-rauc-qemuarm>`_:

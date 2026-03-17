@@ -30,8 +30,9 @@ migratability between different layer revision.
 
 Currently layer meta-rauc-beaglebone supports:
 
-- BeagleBone Black
-- PocketBeagle 2
+- BeagleBone Black (machine beaglebone-yocto from meta-yocto-bsp)
+- PocketBeagle (machine beaglebone from meta-ti/meta-beagle)
+- PocketBeagle 2 (machine pocketbeagle2 from meta-ti/meta-beagle)
 
 I. Adding the meta-rauc-beaglebone layer to your build
 =======================================================

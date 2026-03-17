@@ -9,6 +9,7 @@ SRC_URI:append = "  \
 RDEPENDS:${PN} += "u-boot-fw-utils"
 
 RDEPENDS:${PN}:append:beaglebone-yocto = " u-boot-env"
+RDEPENDS:${PN}:append:beaglebone = " u-boot-bb.org-env"
 RDEPENDS:${PN}:append:pocketbeagle2 = " u-boot-bb.org-env"
 
 inherit systemd
@@ -21,6 +22,7 @@ PACKAGES += "rauc-grow-data-part"
 RDEPENDS:${PN}-grow-data-part += "parted e2fsprogs-resize2fs gptfdisk"
 
 DATADEV:beaglebone-yocto = "mmcblk0"
+DATADEV:beaglebone = "mmcblk0"
 DATADEV:pocketbeagle2 = "mmcblk1"
 
 do_install:append() {

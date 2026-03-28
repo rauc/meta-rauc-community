@@ -39,7 +39,7 @@ Actual requirements may differ from project to project and will
 probably need a much different RAUC/bootloader/system configuration.
 
 
-Currently this layer supports only cubox-i/HummingBoard boards.
+Currently this layer supports cubox-i/HummingBoard boards, and the FRDM-IMX93 development board.
 
 
 I. Adding the meta-rauc-nxp layer to your build
@@ -51,7 +51,7 @@ Run 'bitbake-layers add-layer meta-rauc-nxp'
 II. Build NXP Demo System
 ===============================================
 
-For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf:
+For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf::
 
     MACHINE = "olimex-imx8mp-evb"
     INIT_MANAGER = "systemd"
@@ -60,6 +60,10 @@ For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf:
     DISTRO_FEATURES:append = " rauc"
     IMAGE_FSTYPES:append = " ext4"
     IMAGE_BOOT_FILES:append = " boot.scr"
+
+For FRDM-IMX93 you would can use the exact same parameters as above (i.e., use the ``dual-imx-boot-bootpart.wks.in`` kickstart file), and use the following ``MACHINE``::
+
+    MACHINE = "imx93frdm"
 
 For cubox-i/HummingBoard follow the steps below:
 
@@ -157,3 +161,4 @@ A convenient way to host HTTP server is::
 
 After the update is complete reboot the board to boot from the updated rootfs.
 
+The steps for the iMX93 boards are identical, other than the file names. For example, should you build ``core-image-base`` (which is the default bundled image in all of the aforementioned products in this README fie), your will want to install ``update-bundle-imx93frdm.raucb`` and flash the corresponding ``.wic.zstd`` image name respectfully.

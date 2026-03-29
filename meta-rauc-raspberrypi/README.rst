@@ -49,7 +49,6 @@ Add configuration required for meta-raspberrypi to your local.conf::
 
    # Generic raspberrypi settings
    ENABLE_UART = "1"
-   RPI_USE_U_BOOT = "1"
 
 Set the ``MACHINE`` to the model you intend to build for. E.g.::
 
@@ -63,8 +62,12 @@ Add configuration required for meta-rauc-raspberrypi to your local.conf::
 
    # Settings for meta-rauc-raspberry-pi
    IMAGE_INSTALL:append = " rauc"
+   IMAGE_INSTALL:append = " rpi-eeprom"
+   IMAGE_INSTALL:append = " rpi-autoboot"
+   IMAGE_FSTYPES:remove = " ext3"
    IMAGE_FSTYPES:append = " ext4"
    WKS_FILE = "sdimage-dual-raspberrypi.wks.in"
+   WIC_CREATE_EXTRA_ARGS = " --no-fstab-update"
 
 Make sure either your distro (recommended) or your local.conf have ``rauc``
 ``DISTRO_FEATURE`` enabled::
@@ -108,3 +111,29 @@ Copy the generated bundle to the target system via nc, scp or an attached USB st
 On the target, you can then install the bundle::
 
   # rauc install /path/to/bundle.raucb
+
+V. Known Issues & Troubleshooting
+==================================
+
+EEPROM/Bootloader Version Requirement (RPi 4 / RPi 5)
+------------------------------------------------------
+
+The Raspberry Pi ``tryboot`` mechanism used for A/B slot switching requires a
+sufficiently recent EEPROM bootloader. Very old bootloader versions (e.g. from
+2021) are known to fail when setting the ``tryboot`` bit. Versions from 2023
+onwards appear to work.
+
+Since ``rpi-eeprom-update`` is only available on Raspberry Pi OS (Raspbian),
+updating the EEPROM must be done **before** flashing the Yocto image:
+
+1. Boot a vanilla Raspberry Pi OS on the device.
+2. Check the current bootloader version::
+
+     $ rpi-eeprom-update
+
+3. If the output shows ``UPDATE AVAILABLE``, install it::
+
+     $ sudo rpi-eeprom-update -a
+     $ sudo reboot
+
+4. After the reboot, flash and boot the Yocto image as described above.

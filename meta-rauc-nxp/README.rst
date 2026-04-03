@@ -61,7 +61,7 @@ For Olimex iMX8MP-SOM-4GB-IND and iMX8MP-SOM-EVB-IND set in local.conf::
     IMAGE_FSTYPES:append = " ext4"
     IMAGE_BOOT_FILES:append = " boot.scr"
 
-For FRDM-IMX93 you would can use the exact same parameters as above (i.e., use the ``dual-imx-boot-bootpart.wks.in`` kickstart file), and use the following ``MACHINE``::
+For FRDM-IMX93 you can use the exact same parameters as above (i.e., use the ``dual-imx-boot-bootpart.wks.in`` kickstart file), and use the following ``MACHINE``::
 
     MACHINE = "imx93frdm"
 

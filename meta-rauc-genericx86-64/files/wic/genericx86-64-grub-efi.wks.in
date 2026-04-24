@@ -1,0 +1,17 @@
+# short-description: Create genericx86-64 disk image
+# long-description: Creates a partitioned genericx86-64 disk image for use with the RAUC
+# update tool. The partitionging scheme provides:
+# * a bootloader partition
+# * a grub environment partition
+# * two root file system partitions for atomic updates
+# * a common data partition
+# * swap
+
+bootloader --ptable gpt --timeout=5
+part --fixed-size 50M --source rawcopy --sourceparams="file=efi-boot.vfat" --fstype=vfat --ondisk sda --label boot --active --align 4096
+part --fixed-size 50M --ondisk sda --align 4096 --no-table
+part --fixed-size 10M --source rawcopy --sourceparams="file=grubenv.vfat" --fstype=vfat --ondisk sda --label grubenv --align 1024
+part / --source rawcopy --sourceparams="file=${IMGDEPLOYDIR}/core-image-base-genericx86-64.rootfs.ext4" --ondisk sda --fstype=ext4 --label root_a --fixed-size=3072M --align 4096
+part / --source empty --ondisk sda --fstype=ext4 --label root_b --fixed-size=3072M --align 4096
+part /data --fixed-size 100M --ondisk sda --fstype=ext4 --label data --align 4096
+part swap --ondisk sda --size 44 --label swap1 --fstype=swap

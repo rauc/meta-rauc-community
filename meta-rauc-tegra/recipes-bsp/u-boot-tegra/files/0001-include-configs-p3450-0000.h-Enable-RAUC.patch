@@ -1,0 +1,61 @@
+From 02c7ec063d3f117c9e43d4479e9b1ee883fbd02d Mon Sep 17 00:00:00 2001
+From: Maria Luiza Alves Nunes <ma.luizalves@gmail.com>
+Date: Mon, 13 Jul 2026 12:04:47 +0000
+Subject: [PATCH] include/configs/p3450-0000.h: Enable RAUC
+
+Signed-off-by: Maria Luiza Alves Nunes <ma.luizalves@gmail.com>
+---
+ include/configs/p3450-0000.h | 38 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+
+diff --git a/include/configs/p3450-0000.h b/include/configs/p3450-0000.h
+index 6f36a0d2c4..d093a963b9 100644
+
+--- a/include/configs/p3450-0000.h
++++ b/include/configs/p3450-0000.h
+@@ -66,6 +66,45 @@
+ #else
+ #define FITIMAGE_ENV_SETTINGS
+ #endif /* CONFIG_FIT */
++#undef CONFIG_BOOTCOMMAND
++#define CONFIG_BOOTCOMMAND \
++       "setenv devtype mmc; setenv devnum 0; " \
++       "test -n \"${BOOT_ORDER}\" || setenv BOOT_ORDER \"A B\"; " \
++       "test -n \"${BOOT_A_LEFT}\" || setenv BOOT_A_LEFT 3; " \
++       "test -n \"${BOOT_B_LEFT}\" || setenv BOOT_B_LEFT 3; " \
++       "setenv raucslot; " \
++       "for BOOT_SLOT in ${BOOT_ORDER}; do " \
++       "  if test \"x${raucslot}\" != \"x\"; then " \
++       "      echo \"skip remaining slots...\"; " \
++       "  elif test \"x${BOOT_SLOT}\" = \"xA\"; then " \
++       "    if test ${BOOT_A_LEFT} -gt 0; then " \
++       "      setexpr BOOT_A_LEFT ${BOOT_A_LEFT} - 1; " \
++       "      echo \"Found valid RAUC slot A\"; " \
++       "      setenv raucslot \"rauc.slot=A\"; " \
++       "      setenv raucpart 1; " \
++       "      setenv distro_bootpart 1; " \
++       "    fi; " \
++       "  elif test \"x${BOOT_SLOT}\" = \"xB\"; then " \
++       "    if test ${BOOT_B_LEFT} -gt 0; then " \
++       "      setexpr BOOT_B_LEFT ${BOOT_B_LEFT} - 1; " \
++       "      echo \"Found valid RAUC slot B\"; " \
++       "      setenv raucslot \"rauc.slot=B\"; " \
++       "      setenv raucpart 2; " \
++       "      setenv distro_bootpart 2; " \
++       "    fi; " \
++       "  fi; " \
++       "done; " \
++       "if test -n \"${raucslot}\"; then " \
++       "  setenv bootargs console=ttyS0,115200 root=/dev/mmcblk0p${raucpart} ${raucslot}; " \
++       "  saveenv; " \
++       "else " \
++       "  echo \"No valid RAUC slot found. Resetting tries to 3\"; " \
++       "  setenv BOOT_A_LEFT 3; " \
++       "  setenv BOOT_B_LEFT 3; " \
++       "  saveenv; " \
++       "  reset; " \
++       "fi; " \
++       "sysboot ${devtype} ${devnum}:${distro_bootpart} any ${scriptaddr} /boot/extlinux/extlinux.conf"
+ 
+ #define BOARD_EXTRA_ENV_SETTINGS \
+ 	"preboot=if test -e mmc " DEFAULT_MMC_DEV ":1 /u-boot-preboot.scr; then " \

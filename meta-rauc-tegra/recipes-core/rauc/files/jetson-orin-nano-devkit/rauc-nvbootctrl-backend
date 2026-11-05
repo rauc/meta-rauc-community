@@ -1,0 +1,120 @@
+#!/bin/sh
+# RAUC custom bootloader backend for NVIDIA Jetson (UEFI bootloader A/B with
+# paired root filesystem slots), implemented on top of nvbootctrl.
+#
+# RAUC bootnames: "A" = slot 0, "B" = slot 1.
+
+NVBOOTCTRL=/usr/sbin/nvbootctrl
+EFIVAR=/usr/bin/efivar
+# Vendor GUID of the UEFI variables holding the rootfs A/B state (RootfsStatusSlot{A,B}).
+NVIDIA_GUID=781e084c-a330-417c-b678-38e696380cb9
+
+slot_to_name() {
+    case "$1" in
+        0|A) echo A ;;
+        1|B) echo B ;;
+        *) return 1 ;;
+    esac
+}
+
+name_to_slot() {
+    case "$1" in
+        A|a|0) echo 0 ;;
+        B|b|1) echo 1 ;;
+        *) return 1 ;;
+    esac
+}
+
+other_slot() {
+    [ "$1" = "0" ] && echo 1 || echo 0
+}
+
+# Prints the slot (A/B) the bootloader will boot next
+active_slot() {
+    "$NVBOOTCTRL" dump-slots-info 2>/dev/null \
+        | sed -n 's/^Active bootloader slot:[[:space:]]*\([AB]\).*/\1/p' | head -n 1
+}
+
+# Prints the status ("normal", "unbootable", ...) of slot $1 (0/1)
+slot_status() {
+    "$NVBOOTCTRL" dump-slots-info 2>/dev/null \
+        | sed -n "s/^slot:[[:space:]]*$1,[[:space:]]*status:[[:space:]]*\([a-z]*\).*/\1/p" | head -n 1
+}
+
+# Prints the status of slot $1 (0/1) in the rootfs chain; empty if the chain is not available.
+# The rootfs chain lines carry a 'retry_count: N,' field before the status.
+rootfs_slot_status() {
+    "$NVBOOTCTRL" -t rootfs dump-slots-info 2>/dev/null \
+        | sed -n "s/^slot:[[:space:]]*$1,.*status:[[:space:]]*\([a-z]*\).*/\1/p" | head -n 1
+}
+
+# A slot whose rootfs failed to boot is flagged unbootable in the rootfs chain only. Neither
+# 'set-active-boot-slot' nor a reboot clears that flag, and the bootloader then skips the slot
+# forever. A freshly installed or explicitly activated slot must be bootable again, so reset
+# the UEFI status variable (0 = normal) when it is set.
+clear_rootfs_unbootable() {
+    [ "$(rootfs_slot_status "$1")" = "unbootable" ] || return 0
+    name=$(slot_to_name "$1") || return 1
+    tmp=$(mktemp) || return 1
+    printf '\000\000\000\000' > "$tmp"
+    # Attributes 7 = non-volatile + boot service + runtime service
+    if ! "$EFIVAR" -n "$NVIDIA_GUID-RootfsStatusSlot$name" -w -f "$tmp" -A 7 >/dev/null 2>&1; then
+        echo "Failed to reset rootfs status of slot $name" >&2
+        rm -f "$tmp"
+        return 1
+    fi
+    rm -f "$tmp"
+}
+
+case "$1" in
+    get-primary)
+        name=$(active_slot)
+        [ -n "$name" ] || exit 1
+        echo "$name"
+        ;;
+    set-primary)
+        slot=$(name_to_slot "$2") || exit 1
+        "$NVBOOTCTRL" set-active-boot-slot "$slot" || exit 1
+        # A failed reset is reported on stderr but must not fail the install.
+        clear_rootfs_unbootable "$slot" || true
+        ;;
+    get-state)
+        slot=$(name_to_slot "$2") || exit 1
+        rootfs_status=$(rootfs_slot_status "$slot")
+        if [ "$(slot_status "$slot")" = "normal" ] \
+            && { [ -z "$rootfs_status" ] || [ "$rootfs_status" = "normal" ]; }; then
+            echo good
+        else
+            echo bad
+        fi
+        ;;
+    set-state)
+        slot=$(name_to_slot "$2") || exit 1
+        case "$3" in
+            good)
+                # nvbootctrl can only confirm the running slot; this is what
+                # nv_update_verifier.service already does on every boot.
+                current=$("$NVBOOTCTRL" get-current-slot)
+                if [ "$slot" = "$current" ]; then
+                    "$NVBOOTCTRL" verify
+                fi
+                ;;
+            bad)
+                # Cannot flag a slot unbootable from user space: make sure the
+                # other slot is booted next instead.
+                if [ "$(active_slot)" = "$(slot_to_name "$slot")" ]; then
+                    "$NVBOOTCTRL" set-active-boot-slot "$(other_slot "$slot")"
+                fi
+                ;;
+            *) exit 1 ;;
+        esac
+        ;;
+    get-current)
+        slot=$("$NVBOOTCTRL" get-current-slot) || exit 1
+        slot_to_name "$slot"
+        ;;
+    *)
+        echo "Usage: $0 {get-primary|set-primary|get-state|set-state|get-current}" >&2
+        exit 1
+        ;;
+esac

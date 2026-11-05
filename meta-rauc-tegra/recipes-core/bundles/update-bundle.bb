@@ -4,7 +4,8 @@ inherit bundle
 
 RAUC_BUNDLE_FORMAT = "verity"
 
-RAUC_BUNDLE_COMPATIBLE = "jetson-tx2-devkit"
+# Same compatible string as the target's system.conf
+RAUC_BUNDLE_COMPATIBLE = "${MACHINE}"
 RAUC_BUNDLE_VERSION = "v20211104"
 RAUC_BUNDLE_DESCRIPTION = "RAUC Demo Bundle"
 RAUC_BUNDLE_SLOTS = "rootfs" 

@@ -34,14 +34,9 @@ Supported machines
 ===================================  ============  ==========================
 Machine                              Bootloader    Notes
 ===================================  ============  ==========================
-``jetson-tx2-devkit``                U-Boot        cboot, environment on eMMC
 ``jetson-orin-nano-devkit``          UEFI          SD card, see section V
 ``jetson-orin-nano-devkit-nvme``     UEFI          NVMe, see section V
 ===================================  ============  ==========================
-
-The recipes shared by the machines select their configuration through machine
-overrides (``tegra186`` for the Jetson TX2, ``jetson-orin-nano-devkit`` for both
-Orin Nano devkits).
 
 I. Adding the meta-rauc-tegra layer to your build
 =======================================================
@@ -102,11 +97,6 @@ Build the minimal system image::
 
    $ bitbake core-image-minimal
 
-Please note that NVIDIA Jetson TX2 has a very specific boot flow: cboot
-boots u-boot which boots the kernel and the u-boot environment is on the eMMC.
-This may affect RAUC atomic bootloader updates therefore for production-ready
-devices it is recommended to adjust the location of the u-boot environment.
-
 The following variables are weak defaults and can be overridden in local.conf:
 
 ================================  ============================================================================
@@ -125,21 +115,6 @@ Variable                          Description
 
 III. Flash & Run The Demo System
 ================================
-
-Jetson TX2
-----------
-
-Turn on jetson-tx2-devkit in a recovery mode connected to a PC with USB to microUSB cable and flash the image::
-
-  $ jetsondir=$(mktemp -d /tmp/jetson.XXXXXXXX)
-  $ tar -xf core-image-minimal-jetson-tx2-devkit.tegraflash.tar.gz -C $jetsondir
-  $ cd $jetsondir
-  $ sudo ./doflash.sh
-
-To see that RAUC is configured correctly and can interact with the bootloader,
-run::
-
-  # rauc status
 
 Jetson Orin Nano devkits
 ------------------------
@@ -178,10 +153,6 @@ To build the bundle, run::
 Copy the generated bundle to the target system via nc, scp or an attached USB stick.
 
 On the target, you can then install the bundle::
-
-  # rauc install /path/to/update-bundle-jetson-tx2-devkit.raucb
-
-or, for the Orin Nano devkits (e.g. the NVMe machine)::
 
   # rauc install /path/to/update-bundle-jetson-orin-nano-devkit-nvme.raucb
 

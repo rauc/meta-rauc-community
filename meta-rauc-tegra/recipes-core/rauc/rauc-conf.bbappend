@@ -6,15 +6,6 @@ do_install:append() {
     sed -i -e 's|@MACHINE@|${MACHINE}|' ${D}${sysconfdir}/rauc/system.conf
 }
 
-# --- Jetson TX2 -------------------------------------------------------------
-
-FILESEXTRAPATHS:prepend:tegra186 := "${THISDIR}/files:"
-
-RDEPENDS:${PN}:append:tegra186 = " \
-    u-boot-fw-utils \
-    u-boot-tegra-env \
-"
-
 # --- Jetson Orin Nano devkits -----------------------------------------------
 
 FILESEXTRAPATHS:prepend:jetson-orin-nano-devkit := "${THISDIR}/files:${THISDIR}/files/jetson-orin-nano-devkit:"

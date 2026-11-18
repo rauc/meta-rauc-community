@@ -54,7 +54,7 @@ as ``DISTRO_FEATURE`` and properly configure the user space interface to ``u-boo
 
 If you also want to used ``systemd``, you should also add::
 
-   INIT_MANGER = "systemd"
+   INIT_MANAGER = "systemd"
 
 To properly support the ``qcow2`` image format used in the demo and ``u-boot`` as bootloader,
 you need to provide the following qemu boot option::

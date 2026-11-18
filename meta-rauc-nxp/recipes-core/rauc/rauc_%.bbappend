@@ -1,26 +1,5 @@
 FILESEXTRAPATHS:prepend := "${THISDIR}/files:"
 
-SRC_URI:append := "  \
-	file://rauc-grow-data-partition.service \
-	file://grow-data-partition.sh \
-"
-
-RDEPENDS:${PN} += "u-boot-fw-utils u-boot-imx-env"
-DEPENDS += "u-boot"
-
-inherit systemd
-
-SYSTEMD_PACKAGES += "${PN}-grow-data-part"
-SYSTEMD_SERVICE:${PN}-grow-data-part = "rauc-grow-data-partition.service"
-
-PACKAGES += "rauc-grow-data-part"
-
-RDEPENDS:${PN}-grow-data-part += "parted e2fsprogs-resize2fs gptfdisk"
-
-do_install:append() {
-	install -d ${D}${systemd_unitdir}/system/
-	install -m 0644 ${WORKDIR}/rauc-grow-data-partition.service ${D}${systemd_unitdir}/system/
-
-	install -d ${D}/${bindir}
-	install -m 0755 ${WORKDIR}/grow-data-partition.sh ${D}/${bindir}
-}
+# For backward compatability, only include the grow-partition logic if 'rauc-ab-bootrootfs' is NOT in OVERRIDES
+# The .inc file is identical to the previous contents of this .bbappend file
+include ${@bb.utils.contains('OVERRIDES', 'rauc-ab-bootrootfs', '', 'rauc-grow-partition.inc', d)}

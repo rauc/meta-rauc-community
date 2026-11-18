@@ -1,0 +1,21 @@
+#
+# This kickstart file:
+# - Puts imx-boot in the right place
+# - Defines two vfat filesystems (p1,p2)
+# - Defines a placeholder for a rescue/recovery partition (p3)
+# - Defines two ext4 filesystems (p5,p6)
+#
+# GPT tables could be used interchangably
+# The names after the "part" statement are not really needed, unless one wants to do some more scripting.
+#
+part u-boot --source rawcopy --sourceparams="file=imx-boot" --ondisk mmcblk --no-table --align ${IMX_BOOT_SEEK}
+
+part /boot --source bootimg-partition --ondisk mmcblk --fstype=vfat --label BOOT_A --active --align 8192 --size ${BOOT_PARTITION_SIZE_MIB}
+part /boot_b --source bootimg-partition --ondisk mmcblk --fstype=vfat --label BOOT_B --align 8192 --size ${BOOT_PARTITION_SIZE_MIB}
+# Add a hole to have the system partitions logical. This is a good place to add a recovery/rescue image if you want
+part /res --ondisk mmcblk --label RES --fixed-size ${RES_PARTITION_SIZE_MIB}
+part / --source rootfs --ondisk mmcblk --fstype=ext4 --label ROOTFS_A --align 8192
+part /rootfs_b --source rootfs --ondisk mmcblk --fstype=ext4 --label ROOTFS_B --align 8192
+part /data --ondisk mmcblk --fstype=ext4 --label DATA --align 8192 --fixed-size ${DATA_PARTITION_SIZE_MIB}
+
+bootloader --ptable msdos

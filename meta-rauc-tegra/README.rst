@@ -31,12 +31,20 @@ migratability between different layer revision.
 Supported machines
 ==================
 
-===================================  ============  ==========================
-Machine                              Bootloader    Notes
-===================================  ============  ==========================
-``jetson-orin-nano-devkit``          UEFI          SD card, see section V
-``jetson-orin-nano-devkit-nvme``     UEFI          NVMe, see section V
-===================================  ============  ==========================
+===================================  ======================  ======  ==============
+Machine                              Module                  Rootfs  Bootloader
+===================================  ======================  ======  ==============
+``jetson-orin-nano-devkit``          Orin Nano devkit        SD      UEFI
+``jetson-orin-nano-devkit-nvme``     Orin Nano devkit        NVMe    UEFI
+``p3768-0000-p3767-0001``            Orin NX 8GB             NVMe    UEFI
+``p3768-0000-p3767-0003``            Orin Nano 8GB           NVMe    UEFI
+===================================  ======================  ======  ==============
+
+The recipes select their configuration through the ``rauc-tegra`` machine
+override. ``conf/distro/include/rauc-tegra.inc`` adds it to every machine whose ``TEGRA_BOARDID``
+is listed in ``RAUC_TEGRA_BOARDIDS`` (default ``3767``), so custom carrier
+boards based on these modules are covered as well. The Jetson AGX Orin
+(``3701``) boots from eMMC, which is not supported.
 
 I. Adding the meta-rauc-tegra layer to your build
 =======================================================
@@ -73,8 +81,8 @@ Make sure either your distro (recommended) or your local.conf have ``rauc``
    DISTRO_FEATURES:append = " rauc"
    IMAGE_INSTALL:append = " rauc"
 
-For Orin Nano devkits (jetson-orin-nano-devkit and jetson-orin-nano-devkit-nvme), 
-the following settings are required for RAUC A/B updates:
+For the Orin NX / Orin Nano machines the following settings are required for
+RAUC A/B updates (``conf/distro/include/rauc-tegra.inc`` provides them)::
 
    # Image: the ext4 rootfs is the content of the update bundle.
    IMAGE_FSTYPES:append = " ext4"
@@ -104,6 +112,7 @@ Variable                          Description
 ================================  ============================================================================
 ``RAUC_KEY_FILE``                 Bundle signing key
 ``RAUC_CERT_FILE``                Bundle signing certificate
+``RAUC_TEGRA_BOARDIDS``           ``TEGRA_BOARDID`` values getting the ``rauc-tegra`` override (default ``3767``, ``""`` to opt out)
 ``DATA_MOUNT_POINT``              Mount point of the persistent partition (default ``/data``)
 ``DATA_PART_ENABLE``              Add the ``DATA`` partition to the flash layout and to ``/etc/fstab`` (default ``1``)
 ``DATA_PART_NAME``                Partition label (default ``DATA``)
@@ -116,8 +125,8 @@ Variable                          Description
 III. Flash & Run The Demo System
 ================================
 
-Jetson Orin Nano devkits
-------------------------
+Jetson Orin NX / Orin Nano
+--------------------------
 
 Flash the device with the generated ``tegraflash`` package (or the SD card
 image) as described in the meta-tegra documentation.
@@ -127,8 +136,8 @@ run::
 
   # rauc status
 
-Optional: factory-provisioned ``/data`` (Orin Nano devkits)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Optional: factory-provisioned ``/data`` (Orin NX / Orin Nano)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By default the ``DATA`` partition is formatted empty at flash time. Setting
 ``RAUC_TEGRA_DATAIMG_SIZE_MB`` globally makes the flash package carry an ext4

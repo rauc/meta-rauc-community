@@ -43,6 +43,19 @@ do_install:append:jetson-orin-nano-devkit() {
     fi
     # Drop each listed <partition name="..."> ... </partition> block.
     # The first remaining partition gets an explicit id (see above).
+    # Layouts of custom carrier boards may come without the kernel
+    # partitions: nothing to remove and no partition id to fix then.
+    found=""
+    for name in ${KERNEL_PARTITIONS_TO_REMOVE}; do
+        if grep -q "<partition name=\"$name\"" "$layout"; then
+            found="$name"
+            break
+        fi
+    done
+    if [ -z "$found" ]; then
+        bbnote "No partition of KERNEL_PARTITIONS_TO_REMOVE in $layout, nothing to remove"
+        return 0
+    fi
     awk -v names="${KERNEL_PARTITIONS_TO_REMOVE}" -v dev="$device" \
         -v first="${KERNEL_PARTITIONS_FIRST_PART}" -v firstid="${KERNEL_PARTITIONS_FIRST_ID}" '
         BEGIN { n = split(names, list, " "); for (i = 1; i <= n; i++) drop[list[i]] = 1; in_dev = (dev == "") }

@@ -105,7 +105,7 @@ Variable                          Description
 ``RAUC_KEY_FILE``                 Bundle signing key
 ``RAUC_CERT_FILE``                Bundle signing certificate
 ``DATA_MOUNT_POINT``              Mount point of the persistent partition (default ``/data``)
-``DATA_PART_ENABLE``              Add the ``DATA`` partition to the flash layout (default ``1``)
+``DATA_PART_ENABLE``              Add the ``DATA`` partition to the flash layout and to ``/etc/fstab`` (default ``1``)
 ``DATA_PART_NAME``                Partition label (default ``DATA``)
 ``DATA_PART_ID``                  Explicit GPT partition id (default ``11``, or ``17`` if the kernel partitions are kept)
 ``DATA_PART_FSTYPE``              Filesystem created at flash time (default ``ext4``)

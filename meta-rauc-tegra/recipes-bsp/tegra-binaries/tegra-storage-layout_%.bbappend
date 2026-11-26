@@ -1,8 +1,8 @@
-# Jetson Orin Nano devkits (jetson-orin-nano-devkit and jetson-orin-nano-devkit-nvme) only: the do_install edits below are applied through the jetson-orin-nano-devkit machine override.
+# Jetson Orin NX / Orin Nano machines (rauc-tegra machine override, see conf/distro/include/rauc-tegra.inc): the do_install edits below are applied through that override.
 #
 # Select the flash layout holding the rootfs device.
 #
-# - NVMe machines (jetson-orin-nano-devkit-nvme) boot from a device other than the machine's default one (TNSPEC_BOOTDEV != TNSPEC_BOOTDEV_DEFAULT, the same test as TEGRAFLASH_ROOTFS_EXTERNAL in image_types_tegra.bbclass): the rootfs device is described by external-flash.xml.
+# - NVMe machines (jetson-orin-nano-devkit-nvme and the Orin NX / Orin Nano module machines) boot from a device other than the machine's default one (TNSPEC_BOOTDEV != TNSPEC_BOOTDEV_DEFAULT, the same test as TEGRAFLASH_ROOTFS_EXTERNAL in image_types_tegra.bbclass): the rootfs device is described by external-flash.xml.
 # - SD card machines (jetson-orin-nano-devkit) boot from the default device: the SD card is the <device type="sdcard"> block of internal-flash.xml, next to the QSPI (<device type="spi">) block. Edits are then limited to that block, as the QSPI block has its own secondary_gpt partition. An external-flash.xml is still generated for these machines (tegra234.inc sets PARTITION_LAYOUT_EXTERNAL), but it is not used for flashing, so it must be left alone.
 #
 # Sets 'layout' (file to edit) and 'device' (device type to restrict the edits to, empty for the whole file). Leaves 'layout' empty when no rootfs device layout is found, in which case callers do nothing.
@@ -36,13 +36,26 @@ KERNEL_PARTITIONS_TO_REMOVE ?= "A_kernel A_kernel-dtb A_reserved_on_user B_kerne
 KERNEL_PARTITIONS_FIRST_PART ?= "RECNAME"
 KERNEL_PARTITIONS_FIRST_ID ?= "3"
 
-do_install:append:jetson-orin-nano-devkit() {
+do_install:append:rauc-tegra() {
     jetson_rauc_select_layout
     if [ "${REMOVE_KERNEL_PARTITIONS}" != "1" ] || [ -z "$layout" ]; then
         return 0
     fi
     # Drop each listed <partition name="..."> ... </partition> block.
     # The first remaining partition gets an explicit id (see above).
+    # Layouts of custom carrier boards may come without the kernel
+    # partitions: nothing to remove and no partition id to fix then.
+    found=""
+    for name in ${KERNEL_PARTITIONS_TO_REMOVE}; do
+        if grep -q "<partition name=\"$name\"" "$layout"; then
+            found="$name"
+            break
+        fi
+    done
+    if [ -z "$found" ]; then
+        bbnote "No partition of KERNEL_PARTITIONS_TO_REMOVE in $layout, nothing to remove"
+        return 0
+    fi
     awk -v names="${KERNEL_PARTITIONS_TO_REMOVE}" -v dev="$device" \
         -v first="${KERNEL_PARTITIONS_FIRST_PART}" -v firstid="${KERNEL_PARTITIONS_FIRST_ID}" '
         BEGIN { n = split(names, list, " "); for (i = 1; i <= n; i++) drop[list[i]] = 1; in_dev = (dev == "") }
@@ -88,7 +101,7 @@ DATA_PART_FSTYPE ?= "${@'basic' if d.getVar('RAUC_TEGRA_DATAIMG_SIZE_MB') else '
 DATA_PART_SIZE_BYTES ?= "${@int(d.getVar('RAUC_TEGRA_DATAIMG_SIZE_MB')) * 1048576 if d.getVar('RAUC_TEGRA_DATAIMG_SIZE_MB') else 134217728}"
 DATA_PART_FILENAME_XML ?= "${@'<filename> DATAFILE </filename>' if d.getVar('RAUC_TEGRA_DATAIMG_SIZE_MB') else ''}"
 
-do_install:append:jetson-orin-nano-devkit() {
+do_install:append:rauc-tegra() {
     jetson_rauc_select_layout
     if [ "${DATA_PART_ENABLE}" != "1" ] || [ -z "$layout" ]; then
         return 0

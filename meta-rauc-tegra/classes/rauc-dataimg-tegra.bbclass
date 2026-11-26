@@ -5,7 +5,7 @@
 # are moved into this image at the end of do_rootfs, so /data is empty in the
 # rootfs image (and thus in the RAUC bundle).
 #
-# Enable it for the Jetson Orin Nano devkits by setting RAUC_TEGRA_DATAIMG_SIZE_MB
+# Enable it for the Jetson Orin NX / Orin Nano machines (rauc-tegra override) by setting RAUC_TEGRA_DATAIMG_SIZE_MB
 # globally (kas local_conf_header / local.conf) and inheriting this class in the
 # image, e.g. IMAGE_CLASSES:append:pn-core-image-minimal = " rauc-dataimg-tegra".
 # With RAUC_TEGRA_DATAIMG_SIZE_MB set, tegra-storage-layout_%.bbappend adds the

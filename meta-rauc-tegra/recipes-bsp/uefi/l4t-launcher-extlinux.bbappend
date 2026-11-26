@@ -1,6 +1,6 @@
-# Jetson Orin Nano devkits: ship the kernel DTB in each rootfs (/boot) and load it through extlinux.conf, so a RAUC update replaces it together with the rootfs. 
+# Jetson Orin NX / Orin Nano (rauc-tegra override): ship the kernel DTB in each rootfs (/boot) and load it through extlinux.conf, so a RAUC update replaces it together with the rootfs. 
 # Without it L4TLauncher uses the DTB of the UEFI image in QSPI, which RAUC does not update.
-UBOOT_EXTLINUX_FDT:jetson-orin-nano-devkit ?= "${DTBFILE}"
+UBOOT_EXTLINUX_FDT:rauc-tegra ?= "${DTBFILE}"
 
 # l4t-extlinux-config reads UBOOT_EXTLINUX_FDT through a function argument (get_l4t_extlinux_compat_var), so bitbake does not see it as a dependency and a changed value is silently satisfied from a stale sstate package.
 # 
